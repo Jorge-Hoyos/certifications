@@ -4,8 +4,8 @@ Hi, my name is Jorge Hoyos, I like cloud and DevOps, and with this repo I'm tryi
 
 ## **AWS**
 
-[AWS](certifications/aws/README.md)
+[AWS](aws/README.md)
 
 ## **Azure**
 
-[Azure](certifications/azure/README.md)
+[Azure](azure/README.md)

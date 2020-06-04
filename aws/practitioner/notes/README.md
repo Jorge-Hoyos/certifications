@@ -7,4 +7,4 @@ Inside this repository will be information about practitioner notes
 
 ## **First lesson**
 
-[First lesson](https://github.com/Jorge-Hoyos/certifications/blob/master/aws/practitioner/notes/aws-certified-cloud-practitioner.md)
+[First lesson](aws-certified-cloud-practitioner.md)
