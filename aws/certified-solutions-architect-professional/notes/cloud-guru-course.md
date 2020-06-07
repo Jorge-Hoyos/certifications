@@ -4,17 +4,19 @@ Course given by A Cloud Guru [AWS Certified Solutions Architect - Professional 2
 
 - [Notes for the course of certified solutions architect professional given by a cloud.guru](#notes-for-the-course-of-certified-solutions-architect-professional-given-by-a-cloudguru)
   - [**Migrations**](#migrations)
-    - [Migration strategies](#migration-strategies)
-    - [Cloud adoption framework](#cloud-adoption-framework)
-    - [Hybrid architectures](#hybrid-architectures)
+    - [**Migration strategies**](#migration-strategies)
+    - [**Cloud adoption framework**](#cloud-adoption-framework)
+    - [**Hybrid architectures**](#hybrid-architectures)
       - [Example](#example)
-    - [Migration Tool](#migration-tool)
+    - [**Migration Tool**](#migration-tool)
+    - [**Network migrations and cutovers**](#network-migrations-and-cutovers)
+    - [**Amazon Snow family**](#amazon-snow-family)
 
 ## **Migrations**
 
 ---
 
-### Migration strategies
+### **Migration strategies**
 
 |Strategy|Description|Example|Effort|Opportunity to optimize
 |----|----|----|----|----|
@@ -25,7 +27,9 @@ Course given by A Cloud Guru [AWS Certified Solutions Architect - Professional 2
 |Retire|Get rid of applications which are not needed|End-of-life the label printing app because no-one uses it anymore|||
 |Retain|Do nothing; Decide to reevaluate at a future date|Good news servers, you'll live to see another day|*||
 
-### Cloud adoption framework
+### **Cloud adoption framework**
+
+---
 
 > Framework: is some information to help you get your mind around a problem
 > is not a perfect step-by-step recipe to success
@@ -55,7 +59,9 @@ There's more to cloud adoption than technology, a holistic approach must be cons
 **Operations perspective**
 : Monitor cloud assets, measure performance, react when performance gets below ans SLA, think about business continuity
 
-### Hybrid architectures
+### **Hybrid architectures**
+
+---
 
 - makes use of cloud resource along with on-premises resources
 - First step as pilot for cloud migrations
@@ -77,7 +83,9 @@ AWS storage gateway have a locally cashed volume in a corporate HQ and offices
 - Middleware often a great way to leverage cloud services
 - Loosely-coupled architecture, the ERP system doesn't have to know about DynamoDB, and vice versa
 
-### Migration Tool
+### **Migration Tool**
+
+---
 
 - Storage migration
   - AWS storage gateway
@@ -85,7 +93,7 @@ AWS storage gateway have a locally cashed volume in a corporate HQ and offices
 
 - Server migration service:
   - Automates migration of on-premises VMware vSphere or microsoft VM to AWS
-  - Replicate VMs to AWS, syncing volumes and creating periodic AMIs (Disaster recovery Sync VM volumes to cloud AMIs)
+  - Replicate VMs to AWS, syncing volumes and creating periodically AMIs (Disaster recovery Sync VM volumes to cloud AMIs)
   - Minimize cut over downtime by syncing VMs incrementally
   - Windows and linux VMs
   - Downloaded as a virtual appliance into on-prem setup
@@ -108,3 +116,56 @@ AWS storage gateway have a locally cashed volume in a corporate HQ and offices
   - Only supports OS that AWS supports
 
 - AWS migration HUB
+
+### **Network migrations and cutovers**
+
+---
+
+Don't have any overlaps between IP addresses in your VPC or on-premise
+
+>An overlapping IP address is an IP address that is assigned to more than one device or logical unit, such as an event source type, on a network.
+
+VPC support IPv4 netmasks ranges from /16 to /28
+
+> 5 IPs are reserved in every VPC subnet
+
+/28 = 255.255.255.240
+= 16 addresses
+
+- First address is the network address
+- Last address is the broadcast address
+- Three other reserved addresses for the router, DNS, and the address reserved for AWS
+
+= 14 "usable" minus 3 reserved addresses in a VPC = 11 available in VPC
+
+Design network taking into account these reserved addresses
+
+- Most organizations start with VPN
+- Moving to Direct Connect bur keep the VPN as backup
+- Transition from VPD to DC using BGP routing
+- Once DC is set-up, configure botch VPN and DC within the same BGP prefix
+- DC side is always preferred on AWS
+- Make sure the DC pathing is preferred on on-prem
+
+### **Amazon Snow family**
+
+---
+
+Sometimes can't beat the bandwidth of a delivery truck.
+
+- Evolution of the AWS Import/Export process
+- Design to move massive amounts of data to and from AWS
+- Data transfer is fast or slow depending on the carrier (UPS, DHL, etc.)
+- AWS sends the device, and the load data onto it
+  - Encrypted at rest
+- Send back to AWS.
+  - Encrypted in transit
+
+|Name|Definition|
+|---|---|
+|AWS Import/Export|Ship an HD to AWS, someone plugs it and copies files to S3|
+|AWS Snowball|Ruggedized NAS in a box that AWS ships. Copy over 80TB of data and ship back. They copy the data to S3|
+|AWS Snowball Edge|Same as snowball, but with onboard computing power such as lambda and clustering, "portable AWS" capture and process data in a very remote location|
+|AWS Snowmobile|A literal shipping container full of storage (up to 100PB) and a truck to transport it, then load it to S3|
+
+> ruggedized: designed or improved to be hard-wearing or shock-resistant.
