@@ -11,6 +11,7 @@ Course given by A Cloud Guru [AWS Certified Solutions Architect - Professional 2
     - [**Migration Tool**](#migration-tool)
     - [**Network migrations and cutovers**](#network-migrations-and-cutovers)
     - [**Amazon Snow family**](#amazon-snow-family)
+    - [**Pro Tips**](#pro-tips)
 
 ## **Migrations**
 
@@ -58,6 +59,12 @@ There's more to cloud adoption than technology, a holistic approach must be cons
 
 **Operations perspective**
 : Monitor cloud assets, measure performance, react when performance gets below ans SLA, think about business continuity
+
+Notes:
+
+- Doesn't need to communicate the change to external stakeholders.
+- Be sure that existing software can be migrated to the cloud, licence wise
+- The Cloud Adoption Framework focuses on the early stages of cloud adoption. Therefore, any reinvention of business processes is not inherently considered part of the CAF.
 
 ### **Hybrid architectures**
 
@@ -117,6 +124,10 @@ AWS storage gateway have a locally cashed volume in a corporate HQ and offices
 
 - AWS migration HUB
 
+Notes:
+
+- Informix is not supported by either DMS or SCT
+
 ### **Network migrations and cutovers**
 
 ---
@@ -169,3 +180,11 @@ Sometimes can't beat the bandwidth of a delivery truck.
 |AWS Snowmobile|A literal shipping container full of storage (up to 100PB) and a truck to transport it, then load it to S3|
 
 > ruggedized: designed or improved to be hard-wearing or shock-resistant.
+
+### **Pro Tips**
+
+---
+
+- Technology is often a minor part of a cloud migration project
+- Project management discipline is a must
+- Adapt the cloud adoption framework for your own organization culture

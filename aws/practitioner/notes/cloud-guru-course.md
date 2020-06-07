@@ -9,10 +9,26 @@
   - [**Second lesson - Around the world with AWS**](#second-lesson---around-the-world-with-aws)
     - [AWS global infrastructure](#aws-global-infrastructure)
     - [Choosing right AWS region](#choosing-right-aws-region)
-  - [**Suport plans**](#suport-plans)
+  - [**Support plans**](#support-plans)
   - [**Let's start to Cloud! IAM**](#lets-start-to-cloud-iam)
     - [Exam tips](#exam-tips-1)
   - [**S3 101**](#s3-101)
+    - [Tips](#tips)
+    - [Create website using S3](#create-website-using-s3)
+  - [**Cloudfront**](#cloudfront)
+    - [Key terminology](#key-terminology)
+    - [Distributions](#distributions)
+    - [Notes](#notes)
+  - [**EC2 101**](#ec2-101)
+    - [Pricing models](#pricing-models)
+      - [1. On demand](#1-on-demand)
+      - [2. Reserved](#2-reserved)
+      - [3. Spot](#3-spot)
+      - [4. Dedicated hosts](#4-dedicated-hosts)
+    - [Instance types](#instance-types)
+    - [EBS](#ebs)
+      - [Types](#types)
+    - [EC2 - Tips](#ec2---tips)
 
 ## **First lesson - What is cloud computing**
 
@@ -45,16 +61,17 @@
 
 - 24 regions and multiple AZs
 - Region is a geographical area, consists of two or more AZs
-- Availability zone is one or more discrete data centers, each with redundant power, networking and conectivity, separated by miles
+- Availability zone is one or more discrete data centers, each with redundant power, networking and connectivity, separated by miles
 - Edge locations are endpoint for AWS for caching content, A site that CloudFront uses to cache copies of your content for faster delivery to users at any location.
+  - Connected to AZs through Amazon private network
 
 ### Choosing right AWS region
 
-- Data soverinity laws
+- Data sovereignty laws
 - Latency to end users
 - AWS Services (us-east-1 primary region)
 
-## **Suport plans**
+## **Support plans**
 
 - Basic - free
 - Developer - ask technical question support center, 12-24 hour response - 29$
@@ -66,31 +83,31 @@
 - Allows to create Users, roles, groups, etc.
 
 - Root user is the email that was used to create the account
-  - dont use it
+  - don't use it
 - Activate MFA on root account
 - Create individual IAM users
-  - Programatic
+  - Programmatic
     - CLI
     - SDK
   - Management console
 - Use groups to assign permission
-  - Users added to a group inheriet permissions from the group
+  - Users added to a group inherit permissions from the group
 - Password policy
 
 ### Exam tips
 
 - Its global
 - Access - console, cli, sdk
-- Root account is the email, always have full acministrator access, secure it with MFA
+- Root account is the email, always have full administrator access, secure it with MFA
 - Group, place to store users
 - Policy are write in JSON (JavaScript object notation) used to give permission
 
 ## **S3 101**
 
 - Simple storage service, longest aws services
-- Provides secure, durable, higghly-scalable object store
+- Provides secure, durable, highly-scalable object store
 - Basically a place to put files, txt, videos, etc.
-  - Flat files, that means, that doesnt change (data base files)
+  - Flat files, that means, that doesn't change (data base files)
 - Safe place to store files
 - Object-based storages
   - Different from block-based storage to store operating system
@@ -105,12 +122,12 @@
   - value - data made up of a sequence of bytes
   - Version ID
   - Metadata - Data about you are storing
-  - subresources
+  - sub resources
 - Data Consistency
   - Read after write consistency from PUTS of new objects
-    - If you write a new file into S3 and read it inmediatly you will access the file
-  - Eventual consistency for overwrite PUTS and DELETS (can some time to propagate)
-    - If you update an existing file or delete a file and read it inmediatle, you may get older version, or you may not. Changes can take time
+    - If you write a new file into S3 and read it immediately you will access the file
+  - Eventual consistency for overwrite PUTS and DELETES (can some time to propagate)
+    - If you update an existing file or delete a file and read it immediate, you may get older version, or you may not. Changes can take time
 - Built for 99.99% availability for the S3 platform
 - Amazon guarantee 99.9% availability
 - Amazon guarantees 99.999999999% durability for s3 information
@@ -120,23 +137,23 @@
   - Lifecycle management
   - Versioning
     - Version control
-  - Encription
+  - Encryption
   - Secure data using Access control lists and bucket policies
     - Access control list is on individual file basis, one file or object can only be accessed by one person or role
     - bucket policies works on a bucket level
 
 - Storage classes
   - S3 standard
-    - Redundant across multiple devices in multiple facilities, desinged to sustain the loss of 2 facilities concurrently
+    - Redundant across multiple devices in multiple facilities, designed to sustain the loss of 2 facilities concurrently
   - S3 - IA (Infrequently accessed)
     - Data tha is less frequently accessed, but requires rapid access when needed. Lower fee than s3, but charged on retrieval
-  - S3 on zone - IA
-    - Low cost for infrquently accessed data, dont require multiple AZ recilience
+  - S3 one zone - IA
+    - Low cost for infrequently accessed data, don't require multiple AZ resilience
   - S3 - Intelligent tiering
     - Optimize costs by automatically moving data to the most cost effective access tier, without performance impact
   - S3 glacier
-    - secure, durable and low cos storage class for data archiving. Retrival times configurable from minutes to hours, cost cheaper than on-premise
-  - S3 glacer deep archive
+    - secure, durable and low cos storage class for data archiving. Retrieval times configurable from minutes to hours, cost cheaper than on-premise
+  - S3 glacier deep archive
     - Amazon S3's lowest-cost storage class where a retrieval of 12 hours is acceptable
 
 ![s3 comparison](media/s3-comparison.PNG)
@@ -147,6 +164,160 @@
   - Storage management pricing
   - Data transfer pricing
   - Transfer acceleration
-    - Enables fast, easy and secure transfers of files over long distances between your end users and an s3 bucket, takes advantage of edge locations, users upload files to the edge location instead of the bucket, and it thens goes through amazon internal network to the bucket
+    - Enables fast, easy and secure transfers of files over long distances between your end users and an s3 bucket, takes advantage of edge locations, users upload files to the edge location instead of the bucket, and it thens goes through amazon internal network to the bucket ![s3 transfer acceleration](media/s3-transfer-acceleration.PNG)
   - Cross region replication
-    - Replicate a bucket in another region, it replicates automatically, disaster recovery
+    - Replicate a bucket in another region, it replicates automatically, disaster recovery ![s3 cross region replication](media/s3-cross-region-replication.PNG)
+
+### Tips
+
+- When you view buckets you view them globally but you can have buckets in individual regions
+- Replicate the contents of one bucket to another automatically using cross region replication
+- Change the storage class and encryption of the objects on the fly
+- Restricting bucket access
+  - Bucket policies - applies across the whole bucket
+  - Object policies - applies to individual files
+  - IAM policies to users, groups and roles
+
+### Create website using S3
+
+Serverless website because S3 doesn't consist of any servers
+
+make the s3 a static website hosting, setting
+
+- the index document
+- error document
+- s3 public policy
+
+Notes
+
+- Static website means is html images, movies, etc. Its not dynamic, not connecting to DB showing dynamic content
+
+- Dynamic website cannot be hosted on S3
+
+- S3 scales automatically to meet demands
+
+## **Cloudfront**
+
+- Amazons content delivery network (CDN), is a system of distributed servers (network) that deliver webpages and other web content to a user based on the geographic locations of the user.
+
+### Key terminology
+
+- Edge location: This is the location the content will be cached. This is separate to an AWS region/AZ
+- Origin: This is the origin of all the files that the CDN will distribute. can be S3, EC2 instance, ELB or R53
+- Distribution: This is the name given the CDN which consists of a collection of Edge locations
+
+Content is cached in places near the users for a faster response
+
+- first users gets added latency since content is not cached
+- all users after first will be able to access it from the cloudfront faster
+- File is cached for a length of time
+  - TTL Time to live - given in seconds, around 48 hours
+
+Cloudfront can be used to deliver the entire website, including dynamic, static, streaming and interactive content using a global network of edge location
+Request for the content are automatically routed to the nearest edge location
+
+### Distributions
+
+- Web distribution - used for website
+- RTMP - used for media streaming
+  - Used for flash, not commonly used
+
+### Notes
+
+- Edge location are not just READ only, you can write in them too (put an object on to them)
+- You can clear cached object, but will be charged
+
+## **EC2 101**
+
+---
+
+> EC2 is just a virtual server or servers in the cloud
+
+### Pricing models
+
+#### 1. On demand
+
+Pay a fixed rate by the hour, no commitment
+
+   1. low cost and flexibility
+   2. short term, spiky unpredictable workloads, that cannot be interrupted
+   3. first time apps
+
+#### 2. Reserved
+
+Capacity reservation, significant discount depending on the upfront payment its given the discount, contract are 1 or 3 years, and 3 years contract have the biggest discount
+
+   1. steady state or predictable usage
+   2. reserved capacity
+   3. users able to make upfront payments
+
+Types:
+
+- Standard reserved instances: Up to 75%, cant change the EC2 family, or attributes (memory disk)
+- Convertible reserved instances: up yo 54% capability of changing the instance attributes as long as the change results in the creation of equal or greater value
+- Schedule reserved instances: available to launch within the time windows you reserve. match capacity to predictable schedule, day, week or month
+
+#### 3. Spot
+
+Enables you to bid what ever price you want for instance capacity, greater saving if applications have flexible star and end times
+
+- Flexible star and end times
+- Only feasible at very low compute prices
+- User with urgent computing need for large amounts of additional capacity
+
+#### 4. Dedicated hosts
+
+Physical EC2 servers dedicated for your use. allows existing server-bound software licenses
+
+- Regulatory requirements, may not support multi-tenant virtualization
+- Great for licensing that doesn't support multi-tenant virtualization or cloud deployments
+- Can be purchased
+  - on-demand
+  - reservation
+
+### Instance types
+
+![ec2 instance types](media/ec2-instances-types.PNG)
+
+FIGHT DR Mc PXZ
+
+- F - for FPGA
+- I - for IOPS
+- G - Graphics
+- H - High disk throughput
+- T- Cheap general purpose
+- D - Density
+- R - RAM
+- M - Main choice for general purpose apps
+- C - Compute
+- P - Graphics (Pics)
+- X - Extreme memory
+- Z - Extreme memory and CPU
+
+### EBS
+
+> Virtual hard disks that EC2 uses, every server has a disk, every virtual server has a virtual disk
+
+Creates storage volumes and attach them to EC2 instances
+
+- Create file systems
+- Run data base
+- Install OS
+- Block device
+- Sett up in a specific AZ, where they are automatically replicated
+
+#### Types
+
+- SSD
+  - General purpose (GP2): balances price and performance
+  - Provisioned IOPS SSD (IO1): High performance SSD, for low-latency or high-throughput workload
+- Magnetic
+  - Throughput optimized HDD (ST1): low cost, frequently accessed
+  - Cold HDD (SC1): Lowest cost HDD, less frequently accessed, Files servers
+  - Magnetic: previous generation
+
+### EC2 - Tips
+
+- Web service that provides resizable compute capacity
+- Virtual server in the cloud
+- Spot instance is terminated by AWS, not charged for partial usage, if terminated by the user, charged for the hour
