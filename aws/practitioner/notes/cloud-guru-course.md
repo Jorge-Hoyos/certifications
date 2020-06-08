@@ -29,6 +29,25 @@
     - [EBS](#ebs)
       - [Types](#types)
     - [EC2 - Tips](#ec2---tips)
+    - [Common ports](#common-ports)
+    - [Security group](#security-group)
+    - [**Creating a web server on EC2**](#creating-a-web-server-on-ec2)
+    - [User data](#user-data)
+  - [**Command line**](#command-line)
+  - [**Roles**](#roles)
+  - [**Web server**](#web-server)
+  - [**Lets use elastic load balancer**](#lets-use-elastic-load-balancer)
+    - [ALB](#alb)
+  - [**Databases 101**](#databases-101)
+    - [RDS](#rds)
+      - [RDS Flavors](#rds-flavors)
+      - [Features](#features)
+    - [Non-RDS](#non-rds)
+      - [Non RDS Flavors](#non-rds-flavors)
+    - [Data warehousing (Redshift)](#data-warehousing-redshift)
+    - [ElastiCache](#elasticache)
+      - [Example](#example)
+      - [ElastiCache engines](#elasticache-engines)
 
 ## **First lesson - What is cloud computing**
 
@@ -321,3 +340,190 @@ Creates storage volumes and attach them to EC2 instances
 - Web service that provides resizable compute capacity
 - Virtual server in the cloud
 - Spot instance is terminated by AWS, not charged for partial usage, if terminated by the user, charged for the hour
+
+### Common ports
+
+- linux ssh 22
+- microsoft remote desktop protocol port 3389
+- HTTP port 80
+- HTTPS port 443
+
+### Security group
+
+Virtual firewall
+
+0.0.0.0/0 - everyone
+
+### **Creating a web server on EC2**
+
+- Create EC2
+- open port 80 to world
+
+### User data
+
+```shell
+!#/bin/bash
+yum update -y
+yum install httpd -y
+service httpd start
+chkconfig on
+cd /var/www/html
+echo "<html><body><h1> Text </h1></body></html>" > index.html
+```
+
+Command 1
+
+> !#/bin/bash, everything under that line will run at root , when the EC2 boots up
+
+Command 2
+
+> chkconfig on, if the EC2 instance reboots, the apache servers stars automatically
+
+## **Command line**
+
+---
+
+- Give credentials
+  - aws configure
+  - cd ~
+  - cd .aws
+- Use roles
+
+## **Roles**
+
+---
+
+- Service that will use the role (trusted entities)
+- Attach a policy
+- Tags and names
+- Credentials are not saved
+- Safer way to interact
+- Easier to manage
+- Roles are universal, don't need a region
+
+## **Web server**
+
+---
+
+Install a software that makes the EC2 a web sever
+
+```shell
+yum install httpd
+service httpd start
+cd /var/www/html
+vim index.html
+```
+
+Then go to the Ip address of the instance
+
+## **Lets use elastic load balancer**
+
+---
+
+- Application load balancers
+  - Application aware, they can see into layer 7, make intelligent routing decisions
+- Network load balancers
+  - Used when needed ultra high performance and static IP addresses
+- Classic load balancer
+  - Getting phased out, cheap and cheerful
+
+### ALB
+
+- scheme
+  - Internet facing
+  - Internal
+- Ip address type
+  - ipv4
+- AZs
+- SG
+- Routing
+  - Target group
+  - Health checks
+- Register targets
+- Can be accessed bye the DNS, it resolves to the targets
+
+## **Databases 101**
+
+---
+
+> Relational databases can be seen as a spreadsheet
+
+- Database (file)
+- Tables
+- Row
+  - Fixed number of columns, can be added, but will affect every single row
+- Fields (Columns)
+
+### RDS
+
+Amazons RDS
+
+#### RDS Flavors
+
+> OLTP: Online transaction process
+
+- SQL Server
+- Oracle
+- MySQL Server
+- PostgreSQL
+- Aurora
+- Maria DB
+
+#### Features
+
+- Multiple-AZ, for DR
+  - Detected automatically when the main fails
+  - ![multi-az-rds](media/multi-az-rds.PNG)
+
+- Read Replicas, literally a copy of the DB, for performance
+  - Primary data is copied to the read replicas
+  - up to 5 read replicas
+  - there is no automatic fail over in case of failure to the read replicas
+  - Set up EC2 instances to write to primary DB and all their reads from read replicas
+  - ![read-replicas-rds](media/read-replicas-rds.PNG)
+
+### Non-RDS
+
+- Collection = table
+- Document = row
+- Key value pairs = fields
+
+More flexibility
+
+- The columns in the table can vary
+- Doesn't affect other rows in the data base
+
+#### Non RDS Flavors
+
+- DynamoDB
+
+### Data warehousing (Redshift)
+
+> OLAP: online analytics processing
+
+- Used for BI. Used to pull in very large and complex data sets. do queries on data (current performance vs targets)
+- Do online analytics processing away from the production DB
+- Queries don't impact primary DB, impact secondary DB made for this queries
+- Tools like:
+  - Cognos
+  - Jaspersoft
+  - Oracle Hyperion
+- Different type of architecture, from a DB perspective and infrastructure layer
+- Amazon data warehousing is redshift
+
+### ElastiCache
+
+- Web service that makes it easy to deploy, operate and scale in-memory cache in the cloud.
+- Improves the performance of web applications by allowing them to retrieve information from fast, managed, in-memory caches instead of slower disk-based DBs
+- Takes a massive load of the production DB
+- Primary queries are made in ElastiCache
+- Secondary queries are made in the DB
+
+#### Example
+
+ElastiCache is used by Amazon.com to cache the most common queries from the databases, returns them faster
+
+#### ElastiCache engines
+
+- Memcached
+- Redis
