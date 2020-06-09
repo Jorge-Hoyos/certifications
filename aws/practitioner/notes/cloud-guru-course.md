@@ -48,6 +48,13 @@
     - [ElastiCache](#elasticache)
       - [Example](#example)
       - [ElastiCache engines](#elasticache-engines)
+  - [**Autoscaling**](#autoscaling)
+  - [**Domain name**](#domain-name)
+    - [Amazon Route53](#amazon-route53)
+    - [Hosted zones](#hosted-zones)
+  - [**Elastic Beanstalk**](#elastic-beanstalk)
+    - [EB Notes](#eb-notes)
+  - [**Lets look at cloudformation**](#lets-look-at-cloudformation)
 
 ## **First lesson - What is cloud computing**
 
@@ -426,6 +433,7 @@ Then go to the Ip address of the instance
   - Used when needed ultra high performance and static IP addresses
 - Classic load balancer
   - Getting phased out, cheap and cheerful
+- By Default load balancers are redundant, spread through multiple AZs
 
 ### ALB
 
@@ -527,3 +535,74 @@ ElastiCache is used by Amazon.com to cache the most common queries from the data
 
 - Memcached
 - Redis
+
+## **Autoscaling**
+
+- Launch configuration:
+  - How to configure the launch of the EC2 instance
+- ASG
+  - subnets
+  - group size
+  - network
+  - Target groups
+  - Scaling policies
+    - between # instance
+    - metric type
+      - AVG CPU utilization
+
+## **Domain name**
+
+> DNS: Domain Name System, works like a phone book, process computers use to resolve domain names to IP addresses
+
+- DNS works on port 53
+- Its global
+- Used to direct traffic and register domains
+
+### Amazon Route53
+
+When registering a DNS its good to have a bucket with the same name as a the DNS
+
+- DNS: dnsexample.com
+- bucket: dnsexample.com
+
+> Alias record: naked domain name, no www
+
+A-record:
+Redirects from one url to another
+
+### Hosted zones
+
+Domains you own
+
+## **Elastic Beanstalk**
+
+---
+
+> A way of deploying applications to the cloud, with out needing to know a lot of AWS, just upload the code
+
+- Deploy and manage applications in the cloud without worrying about the infrastructure that runs those applications
+
+- Provision
+  - EC2 instances
+  - SG
+  - ALB
+
+In the click of one button, Elastic Beanstalk automates the process, and we only have to worry for the code
+
+- Platform (PHP, etc.)
+- Application code (can be uploaded)
+
+Change configuration from the console of EB
+
+- Instances type
+- Capacity
+- Load balancer
+
+### EB Notes
+
+- There is no additional charge for AWS Elastic Beanstalk. You pay for AWS resources
+
+## **Lets look at cloudformation**
+
+---
+
