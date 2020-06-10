@@ -6,12 +6,19 @@ Course given by A Cloud Guru [AWS Certified Solutions Architect - Professional 2
   - [**Migrations**](#migrations)
     - [**Migration strategies**](#migration-strategies)
     - [**Cloud adoption framework**](#cloud-adoption-framework)
+      - [Phases](#phases)
     - [**Hybrid architectures**](#hybrid-architectures)
       - [Example](#example)
     - [**Migration Tool**](#migration-tool)
+      - [Storage migration](#storage-migration)
+      - [Server migration service](#server-migration-service)
+      - [Database migration service](#database-migration-service)
+      - [Application discovery service](#application-discovery-service)
+      - [AWS migration HUB](#aws-migration-hub)
+      - [Migration tools Notes](#migration-tools-notes)
     - [**Network migrations and cutovers**](#network-migrations-and-cutovers)
     - [**Amazon Snow family**](#amazon-snow-family)
-    - [**Pro Tips**](#pro-tips)
+    - [**Migration  Tips**](#migration-tips)
 
 ## **Migrations**
 
@@ -49,7 +56,7 @@ There's more to cloud adoption than technology, a holistic approach must be cons
 : Underestimated, powerful factor, reevaluate existing roles, career management with those evolving roles, training options
 
 **Governance**
-: how are we gonna manage the project and process, use the PMO, use existing processes
+: how are we gonna manage the project and process, use the PMO, use existing processes, Align KPIs with newly enabled business capabilities.
 
 **Platform**
 : Standardizing things, standard architectural patterns, develop skills and processes
@@ -65,6 +72,13 @@ Notes:
 - Doesn't need to communicate the change to external stakeholders.
 - Be sure that existing software can be migrated to the cloud, licence wise
 - The Cloud Adoption Framework focuses on the early stages of cloud adoption. Therefore, any reinvention of business processes is not inherently considered part of the CAF.
+
+#### Phases
+
+- Project
+- Foundation
+- Migration
+- Reinvention
 
 ### **Hybrid architectures**
 
@@ -94,37 +108,43 @@ AWS storage gateway have a locally cashed volume in a corporate HQ and offices
 
 ---
 
-- Storage migration
-  - AWS storage gateway
-  - AWS Snowball
+#### Storage migration
 
-- Server migration service:
-  - Automates migration of on-premises VMware vSphere or microsoft VM to AWS
-  - Replicate VMs to AWS, syncing volumes and creating periodically AMIs (Disaster recovery Sync VM volumes to cloud AMIs)
-  - Minimize cut over downtime by syncing VMs incrementally
-  - Windows and linux VMs
-  - Downloaded as a virtual appliance into on-prem setup
+- AWS storage gateway
+- AWS Snowball
 
-- Database migration service
-  - Along with Schema conversion tool (SCT) helps customers migrate DBs to AWS RDS or EC2-based databases
-  - The SCT can copy databases schema for homogenous migrations (same DB), and convert schemas for heterogenous migrations (different DB)
-  - It can migrate from oracle to Aurora
-  - DMS is used for smaller, simpler conversions and also supports MongoDB and DynamoDB
-  - SCT is used for larger more complex, like data warehouses
-  - DMS has replication function for on-prem to AWS or to snowball or S3
+#### Server migration service
+
+- Automates migration of on-premises VMware vSphere or microsoft VM to AWS
+- Replicate VMs to AWS, syncing volumes and creating periodically AMIs (Disaster recovery Sync VM volumes to cloud AMIs)
+- Minimize cut over downtime by syncing VMs incrementally
+- Windows and linux VMs
+- Downloaded as a virtual appliance into on-prem setup
+
+#### Database migration service
+
+- Along with Schema conversion tool (SCT) helps customers migrate DBs to AWS RDS or EC2-based databases
+- The SCT can copy databases schema for homogenous migrations (same DB), and convert schemas for heterogenous migrations (different DB)
+- It can migrate from oracle to Aurora
+- DMS is used for smaller, simpler conversions and also supports MongoDB and DynamoDB
+- SCT is used for larger more complex, like data warehouses
+- DMS has replication function for on-prem to AWS or to snowball or S3
 
 ![DMS](/aws/certified-solutions-architect-professional/media/dms.PNG)
 
-- Application discovery service
-  - Gathers information about on-prem data centers to help in cloud migration planning
-  - Help customer know the full inventory and status of their data centers
-  - Collects config, usage and behavior data from your servers to help in estimating TCO of running on AWS
-  - Run as agent-less (VMware env) or agent-based (non-VMware env)
-  - Only supports OS that AWS supports
+#### Application discovery service
 
-- AWS migration HUB
+- Gathers information about on-prem data centers to help in cloud migration planning
+- Help customer know the full inventory and status of their data centers
+- Collects config, usage and behavior data from your servers to help in estimating TCO of running on AWS
+- Run as agent-less (VMware env) or agent-based (non-VMware env)
+- Only supports OS that AWS supports
 
-Notes:
+#### AWS migration HUB
+
+AWS console
+
+#### Migration tools Notes
 
 - Informix is not supported by either DMS or SCT
 
@@ -181,7 +201,7 @@ Sometimes can't beat the bandwidth of a delivery truck.
 
 > ruggedized: designed or improved to be hard-wearing or shock-resistant.
 
-### **Pro Tips**
+### **Migration  Tips**
 
 ---
 

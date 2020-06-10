@@ -24,6 +24,21 @@ Second part of the A Cloud Guru course
     - [RDS pricing](#rds-pricing)
     - [DynamoDB pricing](#dynamodb-pricing)
     - [Cloudfronmt pricing](#cloudfronmt-pricing)
+  - [**Budget**](#budget)
+  - [**Cost explorer**](#cost-explorer)
+  - [**Support plans**](#support-plans)
+    - [Basic](#basic)
+    - [Developer](#developer)
+    - [Business](#business)
+    - [Enterprise](#enterprise)
+    - [TAM](#tam)
+    - [Response times](#response-times)
+  - [**Tagging and resource groups**](#tagging-and-resource-groups)
+    - [Tags](#tags)
+      - [Tags information](#tags-information)
+    - [Resource group](#resource-group)
+      - [Create groups (SSM)](#create-groups-ssm)
+    - [Tag Editor](#tag-editor)
 
 ## **How AWS pricing works**
 
@@ -175,3 +190,95 @@ What determines price:
 - traffic distribution
 - requests
 - data transfer out
+
+## **Budget**
+
+---
+
+> gives the abulity to set custom budgets that alert yo when your costs or usage exceed or are near
+
+- Use it to budget cost BEFORE they have been icurred
+- has to be enabled
+
+## **Cost explorer**
+
+---
+
+> interface that allows to visualize, understand and manage AWS cost over time
+
+- Used to explore cost AFTER they have been incurred
+
+## **Support plans**
+
+---
+
+![support-plans](media/support-plans.PNG)
+
+### Basic
+
+- Free
+
+### Developer
+
+- $29
+
+### Business
+
+- $100
+
+### Enterprise
+
+- $15000
+
+### TAM
+
+Someone who is dedicated at AWS for your business
+
+### Response times
+
+![support-plans2](media/support-plans2.PNG)
+
+## **Tagging and resource groups**
+
+---
+
+### Tags
+
+- Key value pairs attached to AWS resources
+- metadata
+- tags can be inherited
+
+#### Tags information
+
+- EC2 - public and ip address
+- ELB - port configurations
+- RDS - DB engine
+
+### Resource group
+
+> make it easy to group resources using tags assigned to them, can group resources that share one or more tags
+
+- group resources by
+  - Region
+  - name
+  - employee ID
+  - env
+- resources can be grouped
+
+#### Create groups (SSM)
+
+> query based group
+
+- per region basis
+- Lets you run SSM automations on the resource groups
+
+### Tag Editor
+
+> great way to find all your tags, and resources, and create new tags
+
+- Global service
+
+- Select
+  - regions
+  - resource types
+  - tags
