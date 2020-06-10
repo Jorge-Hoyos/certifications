@@ -1,24 +1,26 @@
-# **Intro**
+# **Cloud Concepts And Technology**
 
-- [**Intro**](#intro)
-  - [**First lesson - What is cloud computing**](#first-lesson---what-is-cloud-computing)
-    - [**Exam tips**](#exam-tips)
-      - [Know the 6 advantaged of cloud](#know-the-6-advantaged-of-cloud)
-      - [Know the 3 types of cloud computing](#know-the-3-types-of-cloud-computing)
-      - [Know the 3 types of cloud computing deployments](#know-the-3-types-of-cloud-computing-deployments)
-  - [**Second lesson - Around the world with AWS**](#second-lesson---around-the-world-with-aws)
+First part of the A Cloud Guru course
+
+- [**Cloud Concepts And Technology**](#cloud-concepts-and-technology)
+  - [**What is cloud computing?**](#what-is-cloud-computing)
+    - [Know the 6 advantaged of cloud](#know-the-6-advantaged-of-cloud)
+    - [Know the 3 types of cloud computing](#know-the-3-types-of-cloud-computing)
+    - [Know the 3 types of cloud computing deployments](#know-the-3-types-of-cloud-computing-deployments)
+  - [**Around the world with AWS**](#around-the-world-with-aws)
     - [AWS global infrastructure](#aws-global-infrastructure)
     - [Choosing right AWS region](#choosing-right-aws-region)
   - [**Support plans**](#support-plans)
-  - [**Let's start to Cloud! IAM**](#lets-start-to-cloud-iam)
-    - [Exam tips](#exam-tips-1)
+  - [**IAM**](#iam)
+    - [Exam tips](#exam-tips)
   - [**S3 101**](#s3-101)
     - [Tips](#tips)
     - [Create website using S3](#create-website-using-s3)
   - [**Cloudfront**](#cloudfront)
     - [Key terminology](#key-terminology)
     - [Distributions](#distributions)
-    - [Notes](#notes)
+    - [Origin](#origin)
+    - [Cloudfront Notes](#cloudfront-notes)
   - [**EC2 101**](#ec2-101)
     - [Pricing models](#pricing-models)
       - [1. On demand](#1-on-demand)
@@ -33,6 +35,7 @@
     - [Security group](#security-group)
     - [**Creating a web server on EC2**](#creating-a-web-server-on-ec2)
     - [User data](#user-data)
+    - [EC2 Tips](#ec2-tips)
   - [**Command line**](#command-line)
   - [**Roles**](#roles)
   - [**Web server**](#web-server)
@@ -48,19 +51,48 @@
     - [ElastiCache](#elasticache)
       - [Example](#example)
       - [ElastiCache engines](#elasticache-engines)
+    - [Graph databases (neptune)](#graph-databases-neptune)
   - [**Autoscaling**](#autoscaling)
-  - [**Domain name**](#domain-name)
+  - [**Domain name - Route53**](#domain-name---route53)
     - [Amazon Route53](#amazon-route53)
+    - [Routings](#routings)
+      - [Failover](#failover)
+      - [Latency-based Routing](#latency-based-routing)
     - [Hosted zones](#hosted-zones)
   - [**Elastic Beanstalk**](#elastic-beanstalk)
     - [EB Notes](#eb-notes)
   - [**Lets look at cloudformation**](#lets-look-at-cloudformation)
+  - [**Architecting for the cloud - best practices**](#architecting-for-the-cloud---best-practices)
+    - [Traditional computing vs cloud computing](#traditional-computing-vs-cloud-computing)
+    - [Scalability](#scalability)
+    - [Deposable resources instead of fixes servers](#deposable-resources-instead-of-fixes-servers)
+    - [Automation](#automation)
+    - [Loose coupling](#loose-coupling)
+    - [Services not servers](#services-not-servers)
+    - [Databases](#databases)
+    - [managing increasing columns of data](#managing-increasing-columns-of-data)
+    - [removing single points of failure](#removing-single-points-of-failure)
+    - [optimize for cost](#optimize-for-cost)
+    - [caching](#caching)
+    - [security](#security)
+  - [**Global AWS services**](#global-aws-services)
+  - [**What AWS services can be used on premise**](#what-aws-services-can-be-used-on-premise)
+    - [snowball](#snowball)
+    - [snowball edge](#snowball-edge)
+    - [storage gateway](#storage-gateway)
+    - [codedeploy](#codedeploy)
+    - [opsworks](#opsworks)
+    - [IOT greengrass](#iot-greengrass)
+  - [**Cloudwatch 101**](#cloudwatch-101)
+    - [cloudwatch tips](#cloudwatch-tips)
+  - [**AWS SSM**](#aws-ssm)
+    - [SSM Tips](#ssm-tips)
 
-## **First lesson - What is cloud computing**
+## **What is cloud computing?**
 
-### **Exam tips**
+---
 
-#### Know the 6 advantaged of cloud
+### Know the 6 advantaged of cloud
 
 - Trade capital expense for variable expense
 - Benefit from massive economies of scale
@@ -69,19 +101,21 @@
 - Stop spending money running and maintaining data center
 - Go global in minutes
 
-#### Know the 3 types of cloud computing
+### Know the 3 types of cloud computing
 
 - Infrastructure as a service (IaaS) Example: EC2
 - Platform as a service (PaaS) Example: Elastic Beanstalk, Amazon LightSail
 - Software as a service (SaaS) Example: Gmail
 
-#### Know the 3 types of cloud computing deployments
+### Know the 3 types of cloud computing deployments
 
 - Public cloud - Example: AWS
 - Private cloud - Example: On premise
 - Hybrid cloud - Mixture of public and private
 
-## **Second lesson - Around the world with AWS**
+## **Around the world with AWS**
+
+---
 
 ### AWS global infrastructure
 
@@ -99,12 +133,16 @@
 
 ## **Support plans**
 
+---
+
 - Basic - free
 - Developer - ask technical question support center, 12-24 hour response - 29$
 - Business - 24x7 support 1 hour response rate, full access to trusted advisor - 100$
 - Enterprise - Business and TAM, 15 min response rate - 15.000$
 
-## **Let's start to Cloud! IAM**
+## **IAM**
+
+---
 
 - Allows to create Users, roles, groups, etc.
 
@@ -248,7 +286,18 @@ Request for the content are automatically routed to the nearest edge location
 - RTMP - used for media streaming
   - Used for flash, not commonly used
 
-### Notes
+### Origin
+
+> where content is stored, from which cloudfront gets connect to serve to viewers
+
+- An Amazon S3 bucket that is configured with static website hosting
+- An Elastic Load Balancing load balancer
+- An AWS Elemental MediaPackage origin
+- An AWS Elemental MediaStore container
+- Any other HTTP server, running on an Amazon EC2 instance or any other kind of host
+- R53?
+
+### Cloudfront Notes
 
 - Edge location are not just READ only, you can write in them too (put an object on to them)
 - You can clear cached object, but will be charged
@@ -386,6 +435,11 @@ Command 2
 
 > chkconfig on, if the EC2 instance reboots, the apache servers stars automatically
 
+### EC2 Tips
+
+- Always design for failure
+  - have 1 EC2 instance in each AZ
+
 ## **Command line**
 
 ---
@@ -468,7 +522,7 @@ Amazons RDS
 
 #### RDS Flavors
 
-> OLTP: Online transaction process
+> OLTP: Online transaction process, individual transaction at any given time
 
 - SQL Server
 - Oracle
@@ -507,7 +561,7 @@ More flexibility
 
 ### Data warehousing (Redshift)
 
-> OLAP: online analytics processing
+> OLAP: online analytics processing, really large sorts of query
 
 - Used for BI. Used to pull in very large and complex data sets. do queries on data (current performance vs targets)
 - Do online analytics processing away from the production DB
@@ -536,7 +590,16 @@ ElastiCache is used by Amazon.com to cache the most common queries from the data
 - Memcached
 - Redis
 
+### Graph databases (neptune)
+
+- scalability
+- high availability
+
 ## **Autoscaling**
+
+---
+
+> allows to provision multiple EC2 instances behind a load balancer automatically depending on demand
 
 - Launch configuration:
   - How to configure the launch of the EC2 instance
@@ -550,7 +613,9 @@ ElastiCache is used by Amazon.com to cache the most common queries from the data
     - metric type
       - AVG CPU utilization
 
-## **Domain name**
+## **Domain name - Route53**
+
+---
 
 > DNS: Domain Name System, works like a phone book, process computers use to resolve domain names to IP addresses
 
@@ -569,6 +634,16 @@ When registering a DNS its good to have a bucket with the same name as a the DNS
 
 A-record:
 Redirects from one url to another
+
+### Routings
+
+#### Failover
+
+> route data to a second resource if the first is unhealthy
+
+#### Latency-based Routing
+
+> route data to resources that have better performance
 
 ### Hosted zones
 
@@ -601,8 +676,275 @@ Change configuration from the console of EB
 ### EB Notes
 
 - There is no additional charge for AWS Elastic Beanstalk. You pay for AWS resources
+- Limited in what it can provision and its not programmable
 
 ## **Lets look at cloudformation**
 
 ---
 
+> turns infrastructure as a code
+
+- be deployed in multiple regions
+- codify an entire environment
+- automating entire infrastructure
+- spend less time managing resources
+- create a template that describes the resources
+- takes care of the provisioning and configuration
+- FREE
+  - the resources are not free
+- Provision almost any service and is programmable
+
+## **Architecting for the cloud - best practices**
+
+### Traditional computing vs cloud computing
+
+- IT assets as provisioned resources (Cloudformation)
+- Global, available and scalable capacity
+- Higher level managed service
+  - Machine learning (sage maker)
+- Built-in security
+- Architecting for cost
+- Operations on AWS
+
+### Scalability
+
+- Scale up
+  - t2 micro to t2 large
+
+- Scale out
+  - multiple instances
+  - stateless applications (doesn't store information)
+  - Distribute load to multiple nodes
+  - stateless components (easier to scale)
+  - stateful components (store information, RDS, or any DB)
+  - Implement session affinity
+    - sticky sessions (stuck to a particular EC2 instance)
+  - Distribute processing
+  - implemented distributed processing
+    - Have multiple instances processing data
+
+### Deposable resources instead of fixes servers
+
+- instantiating compute resources
+  - bootstrapping
+- golden images (AMIs)
+- containers
+- hybrid (containers and ec2)
+
+- IaC
+  - Cloudformation
+
+### Automation
+
+- Serverless management and deployment
+  - all you need to worry is the deployment
+- Infrastructure management and deployment
+  - AWS EB
+  - Amazon EC2 auto recovery
+  - AWS SSM
+  - AS
+- Alarms and events
+  - Cloudwatch alarms
+  - cloudwatch events
+  - lambda schedule events
+  - AWS WAF security automation
+    - web application firewall
+    - respond automatically
+
+### Loose coupling
+
+- well defined interfaces (using APIs)
+  - API GW
+    - Create APIs and expose them to the internet
+- Service discovery
+  - Allows an component of AWS automatically discover another component of aws
+  - implement service discovery
+- Asynchronous integration
+  - Components that communicate asychronally
+- Distributed systems best practices
+  - graceful failure in practice (error.html in s3)
+    - Report to the admins
+
+### Services not servers
+
+- manged services
+- serverless architectures
+
+### Databases
+
+- Aurora
+  - Compatible with MySQL and PostgreSQL
+  - scalability
+  - 6 copies of the date in 3 AZs
+  - High availability
+  - anti-patterns
+    - no need for joins or complex transactions, use no-sql
+
+- DynamoDB
+  - Scalability
+  - High availability
+    - multi AZ
+  - Anti patterns
+    - joins or complex transactions (rds)
+    - large binary files (s3)
+
+- data warehousing (redshift)
+  - Scalability
+  - High availability
+  - anti-patterns
+    - not meant for OLTP
+
+- Search
+  - Cloudsearch
+  - amazon elastic search
+
+- graph databases
+  - amazons neptune
+
+### managing increasing columns of data
+
+> datalake: architectural approach that allows you to store massive amounts of data ina a central locations so that its readable available to be categorized, processed, analyzed and consumed by the organization
+
+- don't need to convert  to a schema
+- s3 is a perfect place to store data lakes
+- use athena's to run SQL queries on your database
+
+### removing single points of failure
+
+- introduce redundancy
+- detect failure
+- durable data storage
+- automated multi data centre resilience
+  - if 1 AZ goes down, go to the other
+- fault isolation and traditional horizontal scaling
+- sharding
+  - elastic map reduce
+  - split the data across multiple nodes
+
+### optimize for cost
+
+- right sizing
+- elasticity
+- rake advantage of the variety of purchasing options
+
+### caching
+
+- application caching
+  - elasticache
+- edge caching
+  - cloudfront
+
+### security
+
+- use aws features for defense in depth
+- shared security responsibility with aws
+- reduce privileged access
+- security as code
+  - hardened ec2 instances
+  - security patches
+- real-time auditing
+  - AWS inspector
+  - AWS cloudtrail
+
+## **Global AWS services**
+
+---
+
+- global
+  - IAM
+  - R53
+  - cloudfront
+  - sns
+  - ses
+
+- global views but are regional
+  - s3
+
+## **What AWS services can be used on premise**
+
+---
+
+### snowball
+
+- gigantic disk
+- 80 terabytes
+
+### snowball edge
+
+- same as snowball
+- cpu
+- deploy lambda on premise
+
+### storage gateway
+
+- stays on premises at all times
+- physical
+- virtual
+- caching your files then replicate files to s3
+
+### codedeploy
+
+- deploy code to ec2 instances and to on premise servers
+
+### opsworks
+
+- similar to elasticbeanstalk
+- uses chef (automated deployments)
+- deploy your application code to the ec2 instances as well to on premise
+
+### IOT greengrass
+
+## **Cloudwatch 101**
+
+---
+
+> monitoring service to monitor the aws resources, as well as the application that runs on aws
+
+- Monitors performance
+  - personal trainer looking at performance
+- monitors things like
+  - compute
+    - ec2 instances
+    - ELBs
+    - R53 health check
+  - storage and content delivery
+    - EBS
+    - storage gateway
+    - cloudfront
+  - host level metrics
+    - cpu
+    - network
+    - disk
+    - status check
+
+### cloudwatch tips
+
+- used for monitoring **performance**
+- monitors most of aws, and apps
+- create custom metrics
+  - database connections
+  - users connected
+- monitors every 5 minutes by default
+  - can have 1 minute intervals turning on detail monitoring
+- create cloudwatch alarms to trigger notifications
+
+## **AWS SSM**
+
+---
+
+> Allows to manage the ec2 instances at scale
+
+- multiple ec2 instances are called an ec2 fleet
+- install software on the instance (agent)
+  - the software connects the instance to SSM
+  - use SSM to
+    - run command to all instances at once
+    - patching
+  - Deploy the software in the on premise
+
+### SSM Tips
+
+- used to manage fleets of ec2 and VMs
+- a piece of sw is installed on each VM
+- can be on AWS and on-prem
+- integrates with cloudwatch to give a dashboard
