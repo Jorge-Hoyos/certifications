@@ -24,6 +24,10 @@ Third part of the a cloud guru course
     - [core checks and recommendations](#core-checks-and-recommendations)
     - [full trusted advisor](#full-trusted-advisor)
   - [**Cloudtrail**](#cloudtrail)
+  - [**Config**](#config)
+  - [**Athena**](#athena)
+    - [Used for](#used-for)
+  - [**Macie**](#macie)
 
 ## **Compliance and AWS artifact**
 
@@ -200,3 +204,50 @@ business and enterprise only
 - monitors API call
 - records everything on the AWS environment
 - record management console and API calls
+
+## **Config**
+
+---
+
+> detailed view of the configuration of aws resources
+
+- how are they related
+- how were they in the past
+- monitors your configuration of the environment
+
+## **Athena**
+
+---
+
+> interactive query service which enables you to analyse and query data in S3 using standard SQL
+
+- interactive query service
+- querying data in S3
+- Serverless
+  - pey per requests
+  - per TB scanned
+- no need to set up complex (ETL)
+- works directly with data stored in S3
+
+### Used for
+
+- Generates business reports
+- cost and usage report
+- query log files stored in s3
+
+## **Macie**
+
+---
+
+> PII (personal identifiable information)
+
+- personal data used to establish an individuals identity
+- can be exploited by criminals
+
+> Macie: Security service which uses MI and NLP to discover classify and protect sensitive data in s3
+
+- uses AI to recognize if s3 have sensitive data
+- dashboard, reportings and alerts
+- works with data in s3
+- can analyze cloudtrail logs
+- great for PCI-DSS compliance
