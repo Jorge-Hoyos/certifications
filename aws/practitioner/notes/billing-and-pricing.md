@@ -11,7 +11,7 @@ Second part of the A Cloud Guru course
       - [Understand the fundamentals of pricing](#understand-the-fundamentals-of-pricing)
       - [start early with cost optimization](#start-early-with-cost-optimization)
       - [maximize the power of flexibility](#maximize-the-power-of-flexibility)
-      - [use the right pricing moduel for the jobs](#use-the-right-pricing-moduel-for-the-jobs)
+      - [use the right pricing model for the jobs](#use-the-right-pricing-model-for-the-jobs)
     - [Free tier](#free-tier)
       - [free services](#free-services)
     - [EC2 pricing](#ec2-pricing)
@@ -23,7 +23,7 @@ Second part of the A Cloud Guru course
     - [Snowball pricing](#snowball-pricing)
     - [RDS pricing](#rds-pricing)
     - [DynamoDB pricing](#dynamodb-pricing)
-    - [Cloudfronmt pricing](#cloudfronmt-pricing)
+    - [Cloudfront pricing](#cloudfront-pricing)
   - [**Budget**](#budget)
   - [**Cost explorer**](#cost-explorer)
   - [**Support plans**](#support-plans)
@@ -39,11 +39,24 @@ Second part of the A Cloud Guru course
     - [Resource group](#resource-group)
       - [Create groups (SSM)](#create-groups-ssm)
     - [Tag Editor](#tag-editor)
+  - [**Organizations and consolidated billing**](#organizations-and-consolidated-billing)
+    - [organization flavors](#organization-flavors)
+      - [Organizations full access](#organizations-full-access)
+      - [Organization just with Consolidated billing](#organization-just-with-consolidated-billing)
+        - [consolidated billing Advantages](#consolidated-billing-advantages)
+    - [Organization best practices](#organization-best-practices)
+  - [**CloudTrail**](#cloudtrail)
+    - [Cloudtrail with organizations](#cloudtrail-with-organizations)
+    - [cloudtrail notes](#cloudtrail-notes)
+  - [**Quick starts**](#quick-starts)
+  - [**Landing Zone**](#landing-zone)
+  - [**Calculators**](#calculators)
+    - [Simple monthly calculator](#simple-monthly-calculator)
+    - [Total cost of ownership calculator (TCO-calculator)](#total-cost-of-ownership-calculator-tco-calculator)
 
 ## **How AWS pricing works**
 
 ---
-
 
 ### CAPEX
 
@@ -71,19 +84,19 @@ Second part of the A Cloud Guru course
 #### start early with cost optimization
 
 - put cost visibility
-- control mechanisims
-  - before the enviroment grows large and complex
+- control mechanisms
+  - before the environments grows large and complex
 
 #### maximize the power of flexibility
 
-- no minimum commtment
+- no minimum commitment
 - pay for service on an as-needed basis
   - focus on innovation and invention
   - reducing procurement complexity
   - enabling business to be fully elastic
-- Dont pay for them when not using
+- don't pay for them when not using
 
-#### use the right pricing moduel for the jobs
+#### use the right pricing model for the jobs
 
 - on demand
 - dedicated instances
@@ -136,7 +149,7 @@ What determines price:
   - $0.20 per 1 million request thereafter
 - duration pricing
   - 400.000 GB-seconds per month free, up to 3.2 million seconds of compute time
-- aditional charges
+- additional charges
   - Reads and write data to s3
 
 ### EBS pricing
@@ -147,9 +160,9 @@ What determines price:
 
 ### S3 pricing
 
-- Storage class (standar, intelligent-tiering, etc.)
+- Storage class (standard, intelligent-tiering, etc.)
 - Storage
-- Requets (GET, PUT COPY)
+- Requests (GET, PUT COPY)
 - data transfer
 
 ### Glacier pricing
@@ -185,7 +198,7 @@ What determines price:
 
 ![dynamodb pricing](media/dynamodb-pricing.PNG)
 
-### Cloudfronmt pricing
+### Cloudfront pricing
 
 - traffic distribution
 - requests
@@ -195,9 +208,9 @@ What determines price:
 
 ---
 
-> gives the abulity to set custom budgets that alert yo when your costs or usage exceed or are near
+> gives the ability to set custom budgets that alert yo when your costs or usage exceed or are near
 
-- Use it to budget cost BEFORE they have been icurred
+- Use it to budget cost BEFORE they have been incurred
 - has to be enabled
 
 ## **Cost explorer**
@@ -221,14 +234,17 @@ What determines price:
 ### Developer
 
 - $29
+- access to AWS support explicitly during business hours via email
 
 ### Business
 
 - $100
+- 24x7
 
 ### Enterprise
 
 - $15000
+- 24x7
 
 ### TAM
 
@@ -270,7 +286,7 @@ Someone who is dedicated at AWS for your business
 > query based group
 
 - per region basis
-- Lets you run SSM automations on the resource groups
+- Lets you run SSM automation's on the resource groups
 
 ### Tag Editor
 
@@ -282,3 +298,114 @@ Someone who is dedicated at AWS for your business
   - regions
   - resource types
   - tags
+
+## **Organizations and consolidated billing**
+
+---
+
+> account management service enables to consolidate multiple AWS accounts into a organization, and centrally manage them
+
+- global service
+- provides single payer and centralized cost tracking
+- create and invite accounts
+  - cant invite other root accounts
+- apply policy-based controls
+- Gets the benefit of economies of scale
+  - cheaper rates
+
+### organization flavors
+
+two ways
+
+#### Organizations full access
+
+- full organization access with policies and OUs
+- all features
+![organizations](media/organizations.PNG)
+
+#### Organization just with Consolidated billing
+
+- one account pays all of the other accounts
+- benefits from economies of scale
+- paying account is independent
+
+##### consolidated billing Advantages
+
+- one billing
+- benefit from economies of scale
+  - AWS services sums in the billing account
+
+### Organization best practices
+
+- enable MFA on root account
+- use strong and complex password
+- billing account for billing only
+- limit of 20 accounts
+- monitor enabled in billing account, bring billing data from all the other accounts
+  - create billing alerts by accounts
+- unused reserved instances for EC2 are applied across the groups
+
+## **CloudTrail**
+
+---
+
+> Monitors API calls within AWS
+
+- auditing tool
+- logs API calls
+- Per account, per region
+
+### Cloudtrail with organizations
+
+- turn on cloudtrail in paying account
+- create bucket policy that allows cross-account access
+- turn on cloudtrail in the other accounts and use the bucket in the paying account
+
+### cloudtrail notes
+
+- AWS CloudTrail is now enabled by default for ALL CUSTOMERS and will provide visibility into the past seven days of account activity without the need for you to configure a trail in the service to get started
+
+## **Quick starts**
+
+---
+
+> Environments created by solutions architects to help with a particular technology quickly
+
+- uses cloudformation templates to provision the things it need to implement the solution
+- deploys solutions into the aws, design by experts
+- free to use
+  - provisioned resources are not
+
+## **Landing Zone**
+
+---
+
+> Set up a multi-account AWS environment at the click of a button
+
+![aws-landing-zone-architecture](media/aws-landing-zone-architecture.png)
+
+- based on best practices
+- starts with 4 different accounts
+
+## **Calculators**
+
+---
+
+> help calculate the costs
+
+### Simple monthly calculator
+
+- static website on s3
+- allows to to built an environment and estimate the cost
+- calculates the monthly cost of AWS
+- not a comparison tool
+
+### Total cost of ownership calculator (TCO-calculator)
+
+- whats is it costing you to have your servers on-premise
+- vs putting them in the cloud
+- compares the cost of AWS vs On-prem
+- convincing executives to move to the cloud
+- generates reports, to make business decisions
+
+![tco-calculator](media/tco-calculator.PNG)
