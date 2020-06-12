@@ -138,6 +138,7 @@ Someone sends a lot of traffic, so much traffic that the server goes down
 ### Advanced
 
 - $3000 a month
+- offers automated application layer monitoring.
 
 ## **Inspector**
 
