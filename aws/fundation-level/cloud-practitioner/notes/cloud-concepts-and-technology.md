@@ -881,6 +881,8 @@ Change configuration from the console of EB
 - physical
 - virtual
 - caching your files then replicate files to s3
+- used for attaching infrastructure located in a Data centre to the AWS Storage infrastructure.
+- You can think of a file gateway as a file system mount on S3.
 
 ### codedeploy
 
