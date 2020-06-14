@@ -108,6 +108,10 @@ General Controls Report
 - encryption is a shared responsibility
   - you are responsible for turning encryption
   - aws is responsible for the encryption
+- AWS takes responsibility for managing all the hardware (including access, patching and other maintenance).
+  - AWS responsibility to make sure that they never run out of storage.
+  - Replication to another AZ is also AWS's responsibility in an applicable storage tier
+  - AWS is also responsible for managing data corruption and resolving it if corruption is detected - however if it cannot fix the corruption, or if data is lost, AWS bears no responsibility for the loss - therefore it is a customer's responsibility to make sure there data is backup up as needed - either though versioning in S3, or through 3rd party tools.
 
 ## **WAF**
 
