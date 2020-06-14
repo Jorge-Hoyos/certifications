@@ -1,5 +1,10 @@
 # **Budgets**
 
+- [**Budgets**](#budgets)
+  - [**Budgets Links**](#budgets-links)
+  - [**Budgets Cloud practitioner notes**](#budgets-cloud-practitioner-notes)
+  - [**Budget Notes**](#budget-notes)
+
 ## **Budgets Links**
 
 - [AWS Budgets](https://aws.amazon.com/aws-cost-management/aws-budgets/)
