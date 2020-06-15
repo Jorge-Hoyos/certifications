@@ -2,18 +2,19 @@
 
 - [**Resource**](#resource)
   - [**Resource Links**](#resource-links)
-  - [**Resource Cloud practitioner notes**](#resource-cloud-practitioner-notes)
+  - [**Resource courses notes**](#resource-courses-notes)
   - [**Resource notes**](#resource-notes)
 
 ## **Resource Links**
 
-- [AWS Resource](https://aws.amazon.com/aws-cost-management/aws-Resource/)
-- [AWS Docs Resource](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/Resource-managing-costs.html)
+- [Resource](https://aws.amazon.com/resource/)
+- [Resource Docs](https://docs.aws.amazon.com/resource/)
 
-## **Resource Cloud practitioner notes**
+## **Resource courses notes**
 
-- [Resource notes](/aws/foundational-level/cloud-practitioner/notes/billing-and-pricing.md#budget)
+- [Resource cloud practitioner notes](/aws/foundational-level/cloud-practitioner/notes/file.md#resource)
+- [Resource solutions architect notes](/aws/associate-level/solutions-architect/notes/file.md#resource)
 
 ## **Resource notes**
 
-- Take notes here
+- Resource notes here

@@ -13,7 +13,7 @@ First part of the A Cloud Guru course
   - [**Support plans**](#support-plans)
   - [**IAM**](#iam)
     - [Exam tips](#exam-tips)
-  - [**S3 101**](#s3-101)
+  - [**S3**](#s3)
     - [Tips](#tips)
     - [Create website using S3](#create-website-using-s3)
   - [**Cloudfront**](#cloudfront)
@@ -166,7 +166,7 @@ First part of the A Cloud Guru course
 - Group, place to store users
 - Policy are write in JSON (JavaScript object notation) used to give permission
 
-## **S3 101**
+## **S3**
 
 - Simple storage service, longest aws services
 - Provides secure, durable, highly-scalable object store
