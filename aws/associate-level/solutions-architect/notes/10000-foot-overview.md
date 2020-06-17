@@ -3,7 +3,7 @@
 Course notes for the [aws-certified-solutions-architect-associate](https://learn.acloud.guru/course/aws-certified-solutions-architect-associate/dashboard)
 
 - [**AWS - 10,000 Foot Overview**](#aws---10000-foot-overview)
-  - [**Global infrastrucutre**](#global-infrastrucutre)
+  - [**Global infrastructure**](#global-infrastructure)
     - [Compute**](#compute)
     - [Storage**](#storage)
     - [Database**](#database)
@@ -20,13 +20,13 @@ Course notes for the [aws-certified-solutions-architect-associate](https://learn
     - [AR and VR](#ar-and-vr)
     - [Application integrations](#application-integrations)
     - [Cost management](#cost-management)
-    - [Customer engament](#customer-engament)
+    - [Customer engagement](#customer-engagement)
     - [Business applications](#business-applications)
-    - [Desktop and App Straming*](#desktop-and-app-straming)
+    - [Desktop and App Streaming*](#desktop-and-app-streaming)
     - [IOT](#iot)
     - [Game Development](#game-development)
 
-## **Global infrastrucutre**
+## **Global infrastructure**
 
 ---
 
@@ -34,7 +34,7 @@ Course notes for the [aws-certified-solutions-architect-associate](https://learn
 - 57 AZs (2019)
 - Availability zone is one or more datacenters, filled with servers
 - Region is a geographical area, consist of 2 or more AZs
-- Edge locations: Enpoints for AWS which are used for caching content, typically this consists of Cloudfront
+- Edge locations: Endpoints for AWS which are used for caching content, typically this consists of Cloudfront
 
 ### Compute**
 
@@ -85,11 +85,11 @@ Course notes for the [aws-certified-solutions-architect-associate](https://learn
 
 ### Cost management
 
-### Customer engament
+### Customer engagement
 
 ### Business applications
 
-### Desktop and App Straming*
+### Desktop and App Streaming*
 
 ### IOT
 
