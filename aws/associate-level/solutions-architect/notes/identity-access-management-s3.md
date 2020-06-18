@@ -47,6 +47,17 @@
     - [Distribution](#distribution)
     - [Web distribution](#web-distribution)
     - [RTMP](#rtmp)
+  - [**Snowball**](#snowball)
+    - [snowball edge](#snowball-edge)
+    - [snowmobile](#snowmobile)
+  - [**Storage gateway**](#storage-gateway)
+    - [Types](#types)
+      - [file gateway (NFS and SMB)](#file-gateway-nfs-and-smb)
+      - [volume gateway (iSCSI)](#volume-gateway-iscsi)
+      - [tape gateway (VTL)](#tape-gateway-vtl)
+  - [**Athena**](#athena)
+    - [used for](#used-for)
+  - [**Macie**](#macie)
 
 ## **IAM**
 
@@ -268,7 +279,7 @@
 
 > if you go https, means the traffic is encrypted in transit
 
-- in transit achieved bye
+- in transit achieved by
   - SSL/TLS
 - at rest (server side)
   - s3 managed keys - SSE - s3 (aws manages the keys, AES-256)
@@ -442,3 +453,116 @@
 
 - used for media streaming
 - adobe flash media servers
+
+## **Snowball**
+
+---
+
+> petabyte scale data transfer solutions
+
+- transfer large amounts of data into and out of AWS
+- address challenges like
+  - high network costs
+  - long transfer times
+  - security concerns
+- Sizes
+  - 50TB
+  - 80TB
+- security
+  - tamper-resistant enclosure
+  - 265-bit encryption
+  - industry trusted platform module (TPM)
+- AWS performs software erase of the snowball
+- import to s3
+- export from s3
+- needs a client to connect
+- needs credential to authenticate
+- needs a role to transfer information
+
+![snowball](/aws/foundational-level/cloud-practitioner/notes/media/snowball.PNG)
+
+### snowball edge
+
+- 100TB
+- on board computing and storage capabilities
+- support local workloads
+- connects to existing apps and infrastructure using standard storage interfaces
+- can cluster together
+
+### snowmobile
+
+- exabyte-scale data transfer
+- up to 100PB per snowmobile
+- complete data center
+
+## **Storage gateway**
+
+---
+
+> service that connect an on premise software appliance with cloud-based storage to provide seamless and secure integration
+
+- securely store data to the aws cloud for scalable cost and effective storage
+- virtual or physical devices
+- that replicates data to aws
+- download as a VM
+  - supports VMware ESXi
+  - microsoft Hyper-V
+
+### Types
+
+#### file gateway (NFS and SMB)
+
+- storing flat files directly in S3
+- files are stored as objects in the bucket, accessed through a network file system
+- once transferred they are managed as native s3 objects
+
+#### volume gateway (iSCSI)
+
+- presents applications with disk volumes using the iSCSI protocol
+- data written can be asynchronously backed up as in-time snapshots, and stored in amazons ebs snapshots
+- storing copies of your hard drives or HDD in s3 as EBS snapshots
+- stored volumes
+  - store primary data locally
+  - backing data to AWS
+  - entire data set is store on site
+- cached volumes
+  - entire dataset is stored on s3
+  - most frequently access data is cached on site
+
+#### tape gateway (VTL)
+
+- durable, cost-effective solution to archive your daa in the AWS cloud
+- getting rid of tapes
+
+## **Athena**
+
+---
+
+> interactive query service, which enables you to analyse and query data located in S3 using standard SQL
+
+- serverless, nothing to provision
+- turn s3 into a giant database
+- pay per query / per TB scanned
+- no need to set up complex ETL
+- works directly with data on s3
+
+### used for
+
+- query log files
+  - ELB logs
+  - S3 access logs
+- generate business reports on data stored in s3
+- analyse AWS cost and usage reports
+- run queries on click-stream data
+
+## **Macie**
+
+---
+
+> security service that uses MI and NLP to discover, classify and protect sensitive data stored in s3
+
+- uses AI to recognize if your s3 objects contain sensitive data such as PII
+- dashboard, reporting and alerts
+- works with data stored in s3
+- can also analyze trail logs
+- great for PCI-DSS
