@@ -12,6 +12,7 @@
     - [IAM notes](#iam-notes)
   - [**Billing alarm**](#billing-alarm)
   - [**S3**](#s3)
+    - [URLs](#urls)
     - [Basics](#basics)
     - [Data Consistency model for s3](#data-consistency-model-for-s3)
     - [Guarantees](#guarantees)
@@ -22,6 +23,7 @@
       - [S3 one zone - IA](#s3-one-zone---ia)
       - [S3 - intelligent tiering](#s3---intelligent-tiering)
       - [S3 - glacier](#s3---glacier)
+        - [retrievals](#retrievals)
       - [S3 - glacier deep archive](#s3---glacier-deep-archive)
       - [RRS (Reduce Redundance storage)](#rrs-reduce-redundance-storage)
     - [charges](#charges)
@@ -37,6 +39,7 @@
     - [Sharing s3 buckets across accounts](#sharing-s3-buckets-across-accounts)
     - [Cross region replication (CRR)](#cross-region-replication-crr)
     - [Transfer acceleration](#transfer-acceleration-1)
+    - [limits](#limits)
     - [s3 notes](#s3-notes)
   - [**Organizations**](#organizations)
     - [Consolidated billing](#consolidated-billing)
@@ -149,6 +152,14 @@
   - text
 - data is spread through multiple devices and facilities
 
+### URLs
+
+- Virtual style puts your bucket name 1st, s3 2nd, and the region 3rd.
+- Path style puts s3 1st and your bucket as a sub domain.
+- Legacy Global endpoint has no region.
+- S3 static hosting can be your own domain or your bucket name 1st, s3-website 2nd, followed by the region.
+- AWS are in the process of phasing out Path style, and support for Legacy Global Endpoint format is limited and discouraged. However it is still useful to be able to recognize them should they show up in logs.
+
 ### Basics
 
 - Object-based
@@ -221,6 +232,13 @@
 - data archiving
 - super cheap
 - retrieval time configurable
+
+##### retrievals
+
+- Cost of retrieval of information from Glacier can go up dependent on how quickly you require the data and how much data is to be retrieved.
+- Expedited retrievals allow you to quickly access your data stored in the S3 Glacier storage class when occasional urgent requests for a subset of archives are required, but at the highest cost.
+- Standard retrievals allow you to access any of your archived objects within several hours, this is faster than bulk (averaging around 12 hours) but more expensive.
+- Bulk retrievals are the lowest-cost retrieval option in Amazon S3 Glacier, enabling you to retrieve large amounts, even petabytes, of data inexpensively.
 
 #### S3 - glacier deep archive
 
@@ -358,6 +376,11 @@
 
 - instead uploading to a bucket, uses a distinct url to upload to an edge location
   - bucket.s3-accelerate.amazonaws.com
+
+### limits
+
+- 100 buckets
+- 3500 PUTS
 
 ### s3 notes
 
