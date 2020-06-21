@@ -36,6 +36,20 @@
   - [**CLI**](#cli)
   - [**Roles**](#roles)
   - [**Boot strap scripts**](#boot-strap-scripts)
+  - [**Instance metadata**](#instance-metadata)
+  - [**EFS - Elastic file system**](#efs---elastic-file-system)
+    - [How to mount](#how-to-mount)
+    - [EFS notes](#efs-notes)
+  - [**FSx for windows**](#fsx-for-windows)
+  - [**FSx for luster**](#fsx-for-luster)
+  - [**Placement groups**](#placement-groups)
+    - [Clustered placement groups](#clustered-placement-groups)
+    - [spread placement groups](#spread-placement-groups)
+    - [partitioned placement groups](#partitioned-placement-groups)
+    - [placement groups notes](#placement-groups-notes)
+  - [**WAF**](#waf)
+    - [behaviors](#behaviors)
+    - [Protection](#protection)
 
 ## **EC2 101**
 
@@ -68,6 +82,7 @@
 
 - up to 75%
 - the more you pay up front and the longer the contract the greater the discount
+- cannot change the region
 
 ##### convertible RI
 
@@ -111,6 +126,9 @@
 - termination protection off by default
 - EBS-backed instance default action if for the root EBS to be deleted
 - shared AZ with EBS volume
+- EC2 underlying hypervisor is
+  - XEN
+  - Nitro
 
 ## **AMI**
 
@@ -236,8 +254,12 @@
 - always be in the same AZ as the EC2
 - can be migrated to other AZ
 - snapshots of encrypted volumes are encrypted automatically
+- volumes restored from encrypted snapshots are encrypted automatically
 - can shared unencrypted snapshots
   - other aws accounts
+- can not be shared trough multiple EC2 instances
+- termination protection off by default
+- EBS snapshots of registered AMIs cannot be deleted
 
 ## **ENI**
 
@@ -381,3 +403,172 @@ echo "<html><h1> web </h1></html>" > index.html
 aws s3 mb s3://my-awesome-bucket-jorge
 aws s3 cp index.html s3://my-awesome-bucket-jorge
 ```
+
+## **Instance metadata**
+
+---
+
+- bootstrap script can be seen from the instance
+
+```shell
+curl http://169.254.169.254/latest/user-data
+```
+
+- metadata can be seen from the instance
+
+```shell
+curl http://169.254.169.254/latest/meta-data/
+curl http://169.254.169.254/latest/meta-data/local-ipv4
+curl http://169.254.169.254/latest/meta-data/public-ipv4
+```
+
+- meta data is used to get information from the instances
+
+## **EFS - Elastic file system**
+
+---
+
+> file storage service for EC2
+
+- can be shared trough multiple EC2 instances
+- create and configure file systems quickly and easily
+- storage capacity is elastic
+  - growing and shrinking automatically as you add files
+- great for files servers
+- great for sharing files
+- has lifecycle policies
+  - moving files to EFS IA which is cheaper
+- throughput
+  - bursting
+  - provisioned
+- performance modes
+  - general purpose
+  - Max I/O
+- communicates trough NFS - port 2049
+
+### How to mount
+
+- run commands
+- its mounted through the server
+
+```shell
+sudo yum install -y amazon-efs-utils
+# without encryption at transit
+sudo mount -t efs fs-12345678:/ /dir/to/share
+# with encryption at transit
+sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
+```
+
+### EFS notes
+
+- supports network file system version 4 (NFSv4) protocol
+- you only pay for the storage used (no pre-provisioning required)
+- can scale up to petabytes
+- can support thousand of concurrent NFS connections
+- Data is stored across multiple AZ within a region
+- Read after write consistency
+
+## **FSx for windows**
+
+---
+
+> fully managed native MS windows file system, so you can move you windows-based apps that require file storage to AWS
+
+- windows file server
+- designed for microsoft applications
+- runs windows server message block (SMB)
+- doesn't work on linux instances, windows only
+
+## **FSx for luster**
+
+---
+
+> file system optimized for compute intensive workload
+
+- HPC, ML, media data processing workflows, big data
+- run lustre file systems that can process massive data sets at up to hundreds of Gbps of throughput, millions of IOPS and sub-millisecond latencies
+- can store data directly to s3
+
+## **Placement groups**
+
+---
+
+- way of placing your ec2 instances
+- no charge for creating placement groups
+
+### Clustered placement groups
+
+- grouping of instances in a single AZ
+- low network latency high network throughput
+- only certain instances
+- very close to each other
+
+### spread placement groups
+
+- grouping of instances placed on distinct underlying hardware
+- small number of critical instances that should be separate
+- can be in different AZs
+- individual instances
+- up to 7 instances per AZ
+
+![spread-placement-group](/aws/associate-level/solutions-architect/media/spread-placement-group.PNG)
+
+### partitioned placement groups
+
+- divides each group into logical segments called partitions
+- each partition has its own set of rack
+  - own network
+  - own power source
+- multiple ec2 within a partition
+- HDS, HBase and cassandra
+
+![partitioned-placement-group](/aws/associate-level/solutions-architect/media/partitioned-placement-group.PNG)
+
+### placement groups notes
+
+- clustered cant span multiple AZs
+  - spread and partitioned can
+- name for placement group must be unique in the AWS account
+- only certain instances can be launch in a placement group
+- it is recommended homogenous instances within clustered placement groups
+- cant merge placement groups
+- cant move an instance to a placement group
+  - create AMI from instance
+  - then launch instance from AMI in the placement fr
+
+## **WAF**
+
+---
+
+> allows to monitor HTTP and HTTPS requests that are forwarded to cloudfront, ALB and API GW
+
+- lets control access to your content
+- HTTP and HTTPS at layer 7
+- lvl 7 aware FW
+  - can see info sended to your web server
+  - query string parameters
+
+conditions such as:
+
+- Allowed IP address to make request
+- what query string parameters need to be passed to allow the request
+- the ALB, cloudfront or API GW will allow content, or give HTTP 403
+
+### behaviors
+
+- Allow all request expect the ones you specify
+- Block all requests except the ones you specify
+- Count the requests that match the properties you specify
+  - passive mode
+
+### Protection
+
+- IP addresses that request originate from
+- country
+- values in request headers
+- string in the requests
+  - specific
+  - regex
+- length of request
+- presence of SQL code (SQL injection)
+- presence of a script (cross-site scripting)
