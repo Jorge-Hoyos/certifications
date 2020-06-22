@@ -568,6 +568,10 @@
 - pay per query / per TB scanned
 - no need to set up complex ETL
 - works directly with data on s3
+- supports
+  - json
+  - apache parquet
+  - apache ORC
 
 ### used for
 
