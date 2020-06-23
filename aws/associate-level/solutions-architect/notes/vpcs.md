@@ -16,6 +16,12 @@
   - [**NAT gateway**](#nat-gateway)
   - [**NACLs**](#nacls)
     - [NACL notes](#nacl-notes)
+  - [**VPC Flow logs**](#vpc-flow-logs)
+  - [**Bastion Hosts**](#bastion-hosts)
+  - [**Direct connect**](#direct-connect)
+    - [How to create direct connect](#how-to-create-direct-connect)
+  - [**global accelerator**](#global-accelerator)
+    - [components](#components)
 
 ## **VPC Overview**
 
@@ -208,3 +214,93 @@
 - every subnet must have a NACL associated
   - default NACL if not
 - can block specific ip address
+
+## **VPC Flow logs**
+
+---
+
+> logs about the ip traffic going to and from nework interfaces in your VPC
+
+- stored using cloudwatch logs
+- cen be viewed and retrieved in cloudwatch logs
+- levels
+  - vpc
+  - subnet
+  - network interface
+- filter
+  - accepted
+  - reject
+  - all
+- destination
+  - cloudwatch logs
+    - destination log group
+  - s3
+- need an IAM role
+- cannot enable flow logs for VPCs that are peered with your VPC, unless the peer VPC is in your account
+- tag flow logs
+- cannot change configuration once created
+
+## **Bastion Hosts**
+
+---
+
+- a way to connect to your instances
+- cannot use a NAT gw as a bastion host
+
+## **Direct connect**
+
+---
+
+> dedicated network connection from your premises to AWS
+
+- private connectivity
+- redurce network cost
+- increase bandwidht throughput
+- consistent network
+
+![direct-connect](/aws/associate-level/solutions-architect/media/direct-connect.PNG)
+
+### How to create direct connect
+
+- Create a public virtual interface
+- Create customer gateway
+- create virtual private gateway
+- attach virtual private gateway to the desired VPC
+- create new VPN connection
+- select virtual rpivate gateway and the cutomer gateway
+- set up VPC on the customer gateway or firewall
+
+## **global accelerator**
+
+---
+
+> create accelerators to improve availability and performance of your application for local and global users
+
+- directs traffic over optimal endpoints over the AWS global network
+- by default global accelerator provides two static ip addresses
+  - you can bring your own
+
+### components
+
+- static ip addresses
+- accelerator
+- DNS name
+  - assign each accelerator a default DNS a4542121adsf.awsglobalaccelerator.com
+  - points to the static ip addresses
+- network zone
+  - isolated unit, availavility zone
+- listener
+  - ports
+  - protocol
+  - processes inbound connection form clients to global accelerator
+- endpoint group
+  - associated with region
+  - one or more endpint in the region
+  - increa/reduce the percentage of traffic that would be otherwise directed to and endoint group - traffic dial
+  - blue/green testin
+- endpoint
+  - NLB
+  - ALB
+  - EC2 instances
+  - EIP
+  - weighted endpoints
