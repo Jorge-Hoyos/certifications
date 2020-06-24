@@ -22,6 +22,9 @@
     - [How to create direct connect](#how-to-create-direct-connect)
   - [**global accelerator**](#global-accelerator)
     - [components](#components)
+  - [**VPC endpoint**](#vpc-endpoint)
+    - [Interface endpoints](#interface-endpoints)
+    - [Gateway endpoints](#gateway-endpoints)
 
 ## **VPC Overview**
 
@@ -29,20 +32,20 @@
 
 > virtual data center in the cloud
 
-- provision a logically isolated section of the AWS where you can launch resources in a virtual netowrk you define
-- total control over virtual netowrking enviroment
+- provision a logically isolated section of the AWS where you can launch resources in a virtual network you define
+- total control over virtual networking environment
   - IP address range
   - creation subnets
   - route table configuration
   - network gateways
 - easily customize network configuration
-  - public subnet for webservers
+  - public subnet for webserver
   - backend systems private subnet
-- you can create a virtual private network (VPN) connection between datacenter and your VPC
+- you can create a virtual private network (VPN) connection between datacenters and your VPC
 
 ![vpc](/aws/associate-level/solutions-architect/media/vpc.PNG)
 
-- can conect via
+- can connect via
   - internet gateway
   - virtual private gateway
 - both connect to router
@@ -50,16 +53,16 @@
 - route tables direct traffic through network ACL
   - first line of defense
   - act like FW
-  - stateles
+  - stateless
 - then move in to SG
 - subnets
-  - private, cannot acces to internet
+  - private, cannot access to internet
   - public, can be accessed via internet
 - private ranges
   - 10.0.0.0/8
   - 172.16.0.0/12
   - 192.168.0.0/16
-- https://cidr.xyz/
+- <https://cidr.xyz/>
 
 ### VPC features
 
@@ -77,6 +80,7 @@
 - all subnets have route out to the internet
 - ec2 have public and private IP
 - can be recovered if deleted
+- comes with a default ACL, by default allows all inbound and outbound traffic
 
 ### Peering
 
@@ -90,7 +94,7 @@
 
 ### VPC notes
 
-- logical datacenter in AWS
+- logical datacenters in AWS
 - resources
   - IGWs (VPGW)
   - RT
@@ -107,19 +111,19 @@
 
 ### creating a VPC
 
-- The allowed block size is between a /28 netmask and /16 netmask
+- The allowed block size is between a /28 netmasks and /16 netmasks
 - creates
   - RT
   - NACLs
   - SG
   - router
-- deosnt create
+- doesn't create
   - subnets
   - IGW
 
 ### creating subnet
 
-- The CIDR block of a subnet can be the same as the CIDR block for the VPC (for a single subnet in the VPC), or a subset of the CIDR block for the VPC (for multiple subnets). The allowed block size is between a /28 netmask and /16 netmask. If you create more than one subnet in a VPC, the CIDR blocks of the subnets cannot overlap.
+- The CIDR block of a subnet can be the same as the CIDR block for the VPC (for a single subnet in the VPC), or a subset of the CIDR block for the VPC (for multiple subnets). The allowed block size is between a /28 netmasks and /16 netmasks. If you create more than one subnet in a VPC, the CIDR blocks of the subnets cannot overlap.
 - can choose AZ
 - assign CIDR block
 - auto-assign public ip address is off by default
@@ -138,7 +142,7 @@
 
 ### Configuring route table
 
-- can have subnets comunicating between each other
+- can have subnets communicating between each other
 - have 2 route table
   - 1 for private subnets
   - 1 for public subnets
@@ -149,10 +153,10 @@
 ### Creating notes
 
 - new VPCs create RT, NACL and a default SG
-- it wotn create subnets nor IGW
+- it wont create subnets nor IGW
 - only 1 IGW per VPC
 - SG cant span VPCs
-- by default sg dont communicate with each other
+- by default sg don't communicate with each other
 
 ## **NAT instances**
 
@@ -166,7 +170,7 @@
 - since is an instance is a bottleneck
 - must be in public subnet
 - the amount of traffic the instance supports depends on the instance
-- behing a SG
+- behind a SG
 
 ## **NAT gateway**
 
@@ -182,7 +186,7 @@
 - 5 - 45 Gbps throughput
   - automatically scales
 - no need to patch
-- doesnt need SG
+- doesn't need SG
 - automatically assigned a public ip address
 
 ## **NACLs**
@@ -193,22 +197,23 @@
 
 - use increments of 100 to create rules
 - newly created NACLs have inbound/outbound denied by default
-- associate subnets to the NALC
+- associate subnets to the NACL
   - subnets can only be associated to 1 NACL
   - multiple subnets can eb associated to a NACL
 - stateless
-  - inboud rules are not created as outbout rules
-  - must be especified
+  - inbound rules are not created as outbound rules
+  - must be specified
 - ephemeral port
   - inbound/outbound
   - 1024 - 65535
 - rules are evaluated incrementally
   - first evaluates rule 100, then 200 ...
   - a deny must be before an allow
+- have separate inbound and outbound rules
 
 ### NACL notes
 
-- changes take place inmediatly
+- changes take place immediately
 - evaluated before SG
 - default VPC comes with NACL that allows all outbound/inbound traffic
 - every subnet must have a NACL associated
@@ -219,7 +224,7 @@
 
 ---
 
-> logs about the ip traffic going to and from nework interfaces in your VPC
+> logs about the ip traffic going to and from network interfaces in your VPC
 
 - stored using cloudwatch logs
 - cen be viewed and retrieved in cloudwatch logs
@@ -239,6 +244,8 @@
 - cannot enable flow logs for VPCs that are peered with your VPC, unless the peer VPC is in your account
 - tag flow logs
 - cannot change configuration once created
+- not all traffic is monitored
+  - to and from 169.254.169.254
 
 ## **Bastion Hosts**
 
@@ -254,8 +261,8 @@
 > dedicated network connection from your premises to AWS
 
 - private connectivity
-- redurce network cost
-- increase bandwidht throughput
+- reduce network cost
+- increase bandwidth throughput
 - consistent network
 
 ![direct-connect](/aws/associate-level/solutions-architect/media/direct-connect.PNG)
@@ -267,7 +274,7 @@
 - create virtual private gateway
 - attach virtual private gateway to the desired VPC
 - create new VPN connection
-- select virtual rpivate gateway and the cutomer gateway
+- select virtual private gateway and the customer gateway
 - set up VPC on the customer gateway or firewall
 
 ## **global accelerator**
@@ -285,22 +292,50 @@
 - static ip addresses
 - accelerator
 - DNS name
-  - assign each accelerator a default DNS a4542121adsf.awsglobalaccelerator.com
+  - assign each accelerator a default DNS a4542121.awsglobalaccelerator.com
   - points to the static ip addresses
 - network zone
-  - isolated unit, availavility zone
+  - isolated unit, availability zone
 - listener
   - ports
   - protocol
   - processes inbound connection form clients to global accelerator
 - endpoint group
   - associated with region
-  - one or more endpint in the region
-  - increa/reduce the percentage of traffic that would be otherwise directed to and endoint group - traffic dial
-  - blue/green testin
+  - one or more endpoint in the region
+  - increase/reduce the percentage of traffic that would be otherwise directed to and endpoint group - traffic dial
+  - blue/green testing
 - endpoint
   - NLB
   - ALB
   - EC2 instances
   - EIP
   - weighted endpoints
+
+## **VPC endpoint**
+
+---
+
+> privately connect your VPC to supported AWS services and VPC endpoint services powered by private link
+
+- doesn't require
+  - IGW
+  - NAT devices
+  - VPC connection
+  - Direct connect
+- connect an ENI to a EC2 to be able to communicate to other AWS services without needing to transfers the internet
+- traffic doesn't leave the amazon network
+
+### Interface endpoints
+
+- ENI with a private IP that serves as an entry point for traffic destined to a supported service
+- services
+  - API GW
+  - CFN
+  - cloudwatch
+
+### Gateway endpoints
+
+- services
+  - S3
+  - Dynamo
