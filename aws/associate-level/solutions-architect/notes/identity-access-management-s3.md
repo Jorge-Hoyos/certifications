@@ -29,17 +29,28 @@
     - [charges](#charges)
     - [Cross region replication](#cross-region-replication)
     - [transfer acceleration](#transfer-acceleration)
+    - [Datasync](#datasync)
     - [Access control list (ACLs)](#access-control-list-acls)
     - [Bucket policies](#bucket-policies)
     - [pricing tiers](#pricing-tiers)
     - [Security](#security)
     - [encryption](#encryption)
     - [versioning](#versioning)
+    - [Object lock](#object-lock)
+    - [glacier vault lock](#glacier-vault-lock)
+    - [prefixes](#prefixes)
+    - [Performance](#performance)
+      - [KMS Limits](#kms-limits)
+      - [Multipart uploads](#multipart-uploads)
+      - [S3 byte-range fetches](#s3-byte-range-fetches)
+    - [Select](#select)
+    - [Glacier Select](#glacier-select)
     - [lifecycle management](#lifecycle-management)
     - [Sharing s3 buckets across accounts](#sharing-s3-buckets-across-accounts)
     - [Cross region replication (CRR)](#cross-region-replication-crr)
     - [Transfer acceleration](#transfer-acceleration-1)
     - [limits](#limits)
+    - [S3 signed URL](#s3-signed-url)
     - [s3 notes](#s3-notes)
   - [**Organizations**](#organizations)
     - [Consolidated billing](#consolidated-billing)
@@ -48,8 +59,11 @@
     - [Edge location](#edge-location)
     - [Origin](#origin)
     - [Distribution](#distribution)
-    - [Web distribution](#web-distribution)
-    - [RTMP](#rtmp)
+      - [Web distribution](#web-distribution)
+      - [RTMP](#rtmp)
+    - [Signed URLs](#signed-urls)
+    - [Signed cookies](#signed-cookies)
+    - [Signed policy](#signed-policy)
   - [**Snowball**](#snowball)
     - [snowball edge](#snowball-edge)
     - [snowmobile](#snowmobile)
@@ -271,6 +285,22 @@
 - uses cloudfront edge locations
   - objects go to the edge location than routed to s3 using amazon network
 
+### Datasync
+
+- allows you to move large amounts of data into AWS
+- use on premise data center
+- install datasync agent
+  - server that connects to a NAS or FS
+- copy data from and to AWS
+- encrypts data
+- performs
+- connections to
+  - s3
+  - EFS
+  - FSx for windows
+- copy data/metadata
+- replicate EFS to EFS
+
 ### Access control list (ACLs)
 
 > allows setting fine grain permissions all the way down to individual object
@@ -319,6 +349,74 @@
   - simply a new version
   - to restore a version, just delete the delete marker
 - versions can be deleted
+
+### Object lock
+
+- store objects using a write once, read many model (WORM)
+- can be on individual objects or applied across the bucket
+- prevent objects from being deleted or modified, for a period of time or indefinitely
+- governance
+  - users cant overwrite or delete an object version or alter its lock setting, unless they have special permissions, some user can alter retention settings
+- compliance
+  - a protected object version cant be overwritten or deleted by any user, including the root user
+- retention period
+  - protects an object version for a fixed amount of time, with a timestamp in the metadata, after the time the object can be deleted unless you place a legal hold on the object version
+- legal hold
+  - prevent an object version from being overwritten, doesn't have an associated retention period, works until removed bye any user
+
+### glacier vault lock
+
+- easily deploy and enforces compliance control for individual s3 glacier vaults with a vault lock policy
+- controls such as worm
+- locking objects inside glacier
+- once locked the policy cannot be changed
+
+### prefixes
+
+- the pathway between our bucket and our object
+- mybucket/folder1/subfolder1/file.jpg
+  - /folder1/subfolder1
+
+### Performance
+
+- first byte out of s3 within 100-200 ms
+- 3500 PUT/COPY/POST/DELETE per second per prefix
+- 5500 GET/HEAD per second per prefix
+- get better performance spreading actions across prefixes
+  - two prefixes achieve 11000 requests per second
+  - four prefixes achieve 22000 requests per second
+
+#### KMS Limits
+
+- uploading file GenerateDataKey API
+- downloading file Decrypt API
+- uploading/downloading will count toward the KMS quota
+- region specific
+  - 5500, 10000 or 30000
+- cannot request quota increase
+
+#### Multipart uploads
+
+- recommended for files over 100 MB
+- required for files over 5 GB
+- parallelize uploads (increases efficiency)
+
+#### S3 byte-range fetches
+
+- parallelize downloads by specifying byte ranges
+- if failure, only for a specific byte range
+- speed up downloads
+
+### Select
+
+- enables application to retrieve only a subset of data from an object by using simple SQL
+- achieve performance increases
+- 400% faster
+- 80% cheaper
+
+### Glacier Select
+
+- run SQL queries against glacier directly
 
 ### lifecycle management
 
@@ -382,6 +480,11 @@
 - 100 buckets
 - 3500 PUTS
 
+### S3 signed URL
+
+- issues a request as the IAM user who created the presigned URL
+- limited lifetime
+
 ### s3 notes
 
 - not suitable to install an OS on
@@ -424,6 +527,7 @@
 
 - enable MFA and strong password on root account
 - paying account only for billing
+- enable/disable AWS services using SCP either on OU or on individual accounts
 
 ## **CloudFront**
 
@@ -468,14 +572,35 @@
 - name given to the CDN
 - collection of edge locations
 
-### Web distribution
+#### Web distribution
 
 - used for websites
 
-### RTMP
+#### RTMP
 
 - used for media streaming
 - adobe flash media servers
+
+### Signed URLs
+
+- way to secure content so only certain people can access it
+- individual files
+- 1 file = 1 url
+- use OAI (origin access identity) to access the file
+- use SDK to generate signed URL
+- Key-pair is account wide and managed by the root user
+- can have multiple origins
+
+### Signed cookies
+
+- multiple files
+- 1 cookie = multiple files
+
+### Signed policy
+
+- URL expiration
+- IP ranges
+- trusted signers
 
 ## **Snowball**
 
