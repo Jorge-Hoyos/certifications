@@ -24,6 +24,16 @@
     - [cold hard disk drive (sc1)](#cold-hard-disk-drive-sc1)
     - [magnetic](#magnetic)
     - [EBS Notes](#ebs-notes)
+  - [**Spot instances**](#spot-instances)
+    - [Spot prices](#spot-prices)
+    - [spot blocks](#spot-blocks)
+    - [Not good for](#not-good-for)
+    - [Spot request](#spot-request)
+    - [Spot fleets](#spot-fleets)
+      - [spoot flees strategies](#spoot-flees-strategies)
+  - [**Hibernate**](#hibernate)
+    - [start from hibernation](#start-from-hibernation)
+    - [Useful for](#useful-for)
   - [**ENI**](#eni)
     - [ENI scenarios](#eni-scenarios)
   - [**ENA**](#ena)
@@ -31,7 +41,7 @@
     - [Enabling](#enabling)
   - [**EFA**](#efa)
   - [**CloudWatch**](#cloudwatch)
-    - [Cloudwatch and ec2](#cloudwatch-and-ec2)
+    - [Cloudwatch and EC2](#cloudwatch-and-ec2)
   - [**CloudTrail**](#cloudtrail)
   - [**CLI**](#cli)
   - [**Roles**](#roles)
@@ -47,6 +57,14 @@
     - [spread placement groups](#spread-placement-groups)
     - [partitioned placement groups](#partitioned-placement-groups)
     - [placement groups notes](#placement-groups-notes)
+  - [**HPC**](#hpc)
+    - [Data transfer](#data-transfer)
+    - [Compute](#compute)
+    - [networking](#networking)
+    - [storage](#storage)
+    - [Orchestration and automation](#orchestration-and-automation)
+      - [BATCH](#batch)
+      - [ParallelCluster](#parallelcluster)
   - [**WAF**](#waf)
     - [behaviors](#behaviors)
     - [Protection](#protection)
@@ -109,7 +127,7 @@
 
 #### dedicated hosts
 
-- psychical ec2 server dedicated for you
+- psychical EC2 server dedicated for you
 - reduce cost by allowing you to use existing server-bound sw licenses
 - regulatory requirements
 - licensing does not support multi tenancy
@@ -119,7 +137,7 @@
 
 ### instance types
 
-![ec2 instance types](/aws/foundational-level/cloud-practitioner/notes/media/ec2-instances-types.PNG)
+![EC2 instance types](/aws/foundational-level/cloud-practitioner/notes/media/EC2-instances-types.PNG)
 
 ### EC2 Notes
 
@@ -174,14 +192,14 @@
   - you cant block ports, or ips
 - all inbound traffic is blocked by default
 - all outbound traffic is allowed
-- any number of ec2 instances in a SG
-- can attach more than 1 sg to ec2 instances
+- any number of EC2 instances in a SG
+- can attach more than 1 sg to EC2 instances
 
 ## **EBS**
 
 ---
 
-> elastic block store, provides persistent block storage volumes for use with amazon ec2
+> elastic block store, provides persistent block storage volumes for use with amazon EC2
 
 - virtual hard disk in the cloud
 - each ebs is replicated withins itz AZ to protect from failure
@@ -190,7 +208,7 @@
   - can be encrypted
 - IOPS = Inputs Outputs per Second, how fas is the HDD
 - extra volumes can be gp2, io1, magnetic standard, cold HDD (sc1), throughput optimized HDD (st1)
-- Shares AZ with ec2 instances
+- Shares AZ with EC2 instances
 - can change values on the fly (storage, volume type, iops)
 - can be moved from AZ
   - create snapshot
@@ -261,6 +279,108 @@
 - termination protection off by default
 - EBS snapshots of registered AMIs cannot be deleted
 
+## **Spot instances**
+
+---
+
+- take advantage of unused EC2 capacity
+- up to 90% discountd
+- stateles, fault tolerant or flexible applications
+  - big data
+  - containerized workloads
+  - CI/CD and testing
+  - HPC
+  - web service
+
+### Spot prices
+
+- decide maximun spot price
+- instance will be provisioned so long as the spot price is below your maximum spot price
+- hourly spot price varies on capacity and region
+- if the spot price goes above your maximum, you have two mnutes to stop or terminate instance
+
+### spot blocks
+
+- stop spot instance from being terminated
+- one to six hours
+
+### Not good for
+
+- persistent workloads
+- critical jobs
+- databases
+- persistent storage
+  - ephemaral computer
+
+### Spot request
+
+- maximum price
+- desired nmber of instances
+- launch specification
+- request type
+  - persistent
+  - one-time
+- valid from, until
+- if its persistent tries to provision another instance when the price goes below again
+- if its one-time terminates the instances
+
+![spot-instance](/aws/associate-level/solutions-architect/media/spot-instance.PNG)
+
+### Spot fleets
+
+- collection of spot instances
+  - optionally on-demand instances
+- attempts to launch the desired capacity of spot/on-demand instances to meet target capaacity
+- is fulfilled if
+  - available capacity
+  - maximum price you specified in the request exceed the current spot price
+- diferent launch pool
+  - OS
+  - instance tipe
+  - AZ
+- multiple pools
+
+#### spoot flees strategies
+
+- capacity optimized
+  - comes from the pool optimal capacity for the number of instances launching
+- lowest price
+  - comes from the pool lowest with the lowest price, default strategy
+- diversified
+  - comes from all the pools
+- instance pools to use count
+  - distributed across the number of spot instances pools you specify
+  - only valid in combination with lowest price
+
+## **Hibernate**
+
+---
+
+- stop instance data is kept on the disk (EBS)
+- if the instance is terminated, by default so will the root volume
+- hibernate our EC2 instance
+- OS is suspended to disk
+  - saves the content from the isntances memory (RAM) to the EBS
+  - a lot faster to boot up
+- the EBS must be big enough to store the RAM
+- Root device **MUST BE ENCRYPTED**
+- instance RAM must be less than 150GB
+- cant be hibernated for more that 60 days
+- available for on-demand and RI
+
+### start from hibernation
+
+- EBS is restored to its previous state
+- RAM contents are reloaded
+- the proccesses resumes
+- previously attached volumes are reattached and the instances retains its ID
+  - If we stop or restart the instances losses the ID
+
+### Useful for
+
+- long running proccesses
+- services that take time to intialize
+
 ## **ENI**
 
 ---
@@ -318,7 +438,7 @@ intel 82599 virtual function (VF)
 
 > elastic fabric adapter
 
-- network device attached to ec2 to accelerate HPC and machine learning apps
+- network device attached to EC2 to accelerate HPC and machine learning apps
 - lower and more consistent latency and higher throughput's
 - can use OS-bypass, enabling HPC and ML apps, to bypass OS kernel and communicate directly with the EFA device, a lot faster/latency
 - only for linux
@@ -350,7 +470,7 @@ intel 82599 virtual function (VF)
 - events - help respond to state changed in aws
 - logs . helps you to aggregate, monitor and store logs
 
-### Cloudwatch and ec2
+### Cloudwatch and EC2
 
 host level metrics
 
@@ -493,7 +613,7 @@ sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
 
 ---
 
-- way of placing your ec2 instances
+- way of placing your EC2 instances
 - no charge for creating placement groups
 
 ### Clustered placement groups
@@ -519,7 +639,7 @@ sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
 - each partition has its own set of rack
   - own network
   - own power source
-- multiple ec2 within a partition
+- multiple EC2 within a partition
 - HDS, HBase and cassandra
 
 ![partitioned-placement-group](/aws/associate-level/solutions-architect/media/partitioned-placement-group.PNG)
@@ -535,6 +655,55 @@ sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
 - cant move an instance to a placement group
   - create AMI from instance
   - then launch instance from AMI in the placement fr
+
+## **HPC**
+
+---
+
+### Data transfer
+
+- snowball, snowmobile (tb/pb worth of data)
+- DataSync store on s3, EFS, FSx for windows
+- Direct connect
+
+### Compute
+
+- EC2 instances CPU or GPU optimized
+- EC2 fleets
+- placement groups (cluster)
+
+### networking
+
+- enhanced networking
+- elastic network adapters
+- elastic fabric adapters
+
+### storage
+
+- instance-attached storage
+  - EBS: up to 64000 IOPS (io1)
+  - instance store: sacale to millions of IOPS: low latency
+
+- network storage
+  - s3: distributed object-based storage
+  - EFS: scale IOPS based on total sice, or use provisioned IOPS
+  - FSx for luster: HPC-optimized distributed file system; millions of IOPS, backed by s3
+
+### Orchestration and automation
+
+#### BATCH
+
+- easily run hundresds of thousand of batch computing jobs on AWS
+- supports multi-node parallel jobs
+  - single jobs, across multiple EC2
+- schedule jobs and launch EC2 instances
+
+#### ParallelCluster
+
+- open source cluster management tool
+- makes it easy to deploy and manage HPC clusters on AWS
+- simple text file to model and provision all the resurces needed
+- Automate create of VPCs, subnets, cluster type, and instances types
 
 ## **WAF**
 
