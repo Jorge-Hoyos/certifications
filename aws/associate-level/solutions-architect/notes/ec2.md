@@ -30,7 +30,7 @@
     - [Not good for](#not-good-for)
     - [Spot request](#spot-request)
     - [Spot fleets](#spot-fleets)
-      - [spoot flees strategies](#spoot-flees-strategies)
+      - [spot flees strategies](#spot-flees-strategies)
   - [**Hibernate**](#hibernate)
     - [start from hibernation](#start-from-hibernation)
     - [Useful for](#useful-for)
@@ -284,8 +284,8 @@
 ---
 
 - take advantage of unused EC2 capacity
-- up to 90% discountd
-- stateles, fault tolerant or flexible applications
+- up to 90% discount
+- stateless, fault tolerant or flexible applications
   - big data
   - containerized workloads
   - CI/CD and testing
@@ -294,10 +294,10 @@
 
 ### Spot prices
 
-- decide maximun spot price
+- decide maximum spot price
 - instance will be provisioned so long as the spot price is below your maximum spot price
 - hourly spot price varies on capacity and region
-- if the spot price goes above your maximum, you have two mnutes to stop or terminate instance
+- if the spot price goes above your maximum, you have two minutes to stop or terminate instance
 
 ### spot blocks
 
@@ -310,12 +310,12 @@
 - critical jobs
 - databases
 - persistent storage
-  - ephemaral computer
+  - ephemeral computer
 
 ### Spot request
 
 - maximum price
-- desired nmber of instances
+- desired number of instances
 - launch specification
 - request type
   - persistent
@@ -330,17 +330,17 @@
 
 - collection of spot instances
   - optionally on-demand instances
-- attempts to launch the desired capacity of spot/on-demand instances to meet target capaacity
+- attempts to launch the desired capacity of spot/on-demand instances to meet target capacity
 - is fulfilled if
   - available capacity
   - maximum price you specified in the request exceed the current spot price
-- diferent launch pool
+- different launch pool
   - OS
-  - instance tipe
+  - instance type
   - AZ
 - multiple pools
 
-#### spoot flees strategies
+#### spot flees strategies
 
 - capacity optimized
   - comes from the pool optimal capacity for the number of instances launching
@@ -360,7 +360,7 @@
 - if the instance is terminated, by default so will the root volume
 - hibernate our EC2 instance
 - OS is suspended to disk
-  - saves the content from the isntances memory (RAM) to the EBS
+  - saves the content from the instances memory (RAM) to the EBS
   - a lot faster to boot up
 - the EBS must be big enough to store the RAM
 - Root device **MUST BE ENCRYPTED**
@@ -372,14 +372,14 @@
 
 - EBS is restored to its previous state
 - RAM contents are reloaded
-- the proccesses resumes
+- the processes resumes
 - previously attached volumes are reattached and the instances retains its ID
   - If we stop or restart the instances losses the ID
 
 ### Useful for
 
-- long running proccesses
-- services that take time to intialize
+- long running processes
+- services that take time to initialize
 
 ## **ENI**
 
@@ -682,18 +682,18 @@ sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
 
 - instance-attached storage
   - EBS: up to 64000 IOPS (io1)
-  - instance store: sacale to millions of IOPS: low latency
+  - instance store: scale to millions of IOPS: low latency
 
 - network storage
   - s3: distributed object-based storage
-  - EFS: scale IOPS based on total sice, or use provisioned IOPS
+  - EFS: scale IOPS based on total size, or use provisioned IOPS
   - FSx for luster: HPC-optimized distributed file system; millions of IOPS, backed by s3
 
 ### Orchestration and automation
 
 #### BATCH
 
-- easily run hundresds of thousand of batch computing jobs on AWS
+- easily run hundreds of thousand of batch computing jobs on AWS
 - supports multi-node parallel jobs
   - single jobs, across multiple EC2
 - schedule jobs and launch EC2 instances
@@ -702,7 +702,7 @@ sudo mount -t efs -o tls fs-12345678:/ /dir/to/share
 
 - open source cluster management tool
 - makes it easy to deploy and manage HPC clusters on AWS
-- simple text file to model and provision all the resurces needed
+- simple text file to model and provision all the resources needed
 - Automate create of VPCs, subnets, cluster type, and instances types
 
 ## **WAF**

@@ -31,13 +31,22 @@
     - [Basics](#basics)
     - [eventual consistent reads (default)](#eventual-consistent-reads-default)
     - [strongly consistent read](#strongly-consistent-read)
+    - [DAX](#dax)
+    - [Transactions](#transactions)
+    - [On-demand capacity](#on-demand-capacity)
+    - [Backup and restore](#backup-and-restore)
+      - [PITR (point in time recovery)](#pitr-point-in-time-recovery)
+    - [streams](#streams)
+    - [global tables](#global-tables)
+    - [DMS dynamodb](#dms-dynamodb)
+    - [security](#security)
   - [**Redshift**](#redshift)
     - [Configuration](#configuration)
     - [Advanced compression](#advanced-compression)
     - [massive parallel processing (MPP)](#massive-parallel-processing-mpp)
     - [backups](#backups-1)
     - [pricing](#pricing)
-    - [security](#security)
+    - [redshift security](#redshift-security)
     - [availability](#availability)
   - [**Aurora**](#aurora-1)
     - [Scaling aurora](#scaling-aurora)
@@ -46,6 +55,17 @@
     - [Aurora serverless](#aurora-serverless)
   - [**Elasticache**](#elasticache-1)
     - [Memcached vs redis](#memcached-vs-redis)
+  - [**DMS**](#dms)
+    - [Homogenous migrations](#homogenous-migrations)
+    - [heterogeneous migrations](#heterogeneous-migrations)
+    - [Sources](#sources)
+    - [targets](#targets)
+  - [**Caching strategies**](#caching-strategies)
+  - [**EMR**](#emr)
+    - [cluster](#cluster)
+    - [Master node](#master-node)
+    - [Core node](#core-node)
+    - [Task node](#task-node)
 
 ## **Databases 101**
 
@@ -234,6 +254,93 @@ once the RDS is encrypted, the data stored is encrypted, automated backups, read
 - less than a second
 - reflects all writes that received a successful response prior to read
 
+### DAX
+
+- fully managed, HA, in-memory cache
+- 10x performance improvement
+- reduces request time from milliseconds to microseconds
+- compatible with dynamo API calls
+- no code changes to app
+- write/read performance improvements
+
+![dax](/aws/associate-level/solutions-architect/media/dax.PNG)
+
+### Transactions
+
+- multiple 'all or nothing' operations
+  - when you need to debit from one account to another
+  - financial transaction
+  - fulfilling orders
+- two underlying reads or write - prepare/commit
+- up to 25 items or 4 MB of data
+
+### On-demand capacity
+
+- pay per request pricing
+- balance cost and performance
+- adapts rapidly to new workload
+- no minimum capacity
+- no read/write charges when table is idle
+  - only pay for storage and backups
+- pay more per request
+
+### Backup and restore
+
+- full backups at any time
+- zero impact on table performance or availability
+- consistent within seconds and retained until deleted
+- operates within same region as the source table
+  - not across regions
+
+#### PITR (point in time recovery)
+
+- protects against accidental write or deletes
+- restore to any point within 35 days
+- incremental backus
+- not enable by default
+- latest restorable: 5 minutes
+
+### streams
+
+- time ordered sequence of item level changes in a table
+- stored for 24 hours
+- inserts, updates, and deletes
+- stream record
+- shard
+  - multiple stream records
+- cross region replication
+  - global tables
+- relations between tables
+- combine with lambda for functionality like stored procedures
+
+### global tables
+
+- managed multi-master, multi region replication
+- globally distributed applications
+- based on dynamodb streams
+- for DR or HA
+- no need to do changes in the application
+- replication latency under once second
+- must enable streams enabled
+
+### DMS dynamodb
+
+- source DB
+  - completely operational during transfer
+- target DB
+  - can be DynamoDB
+- configure all data transformation logic inside DMS and it preforms the migration automatically
+
+### security
+
+- encryption using KMS
+- site to site VPN
+- direct connect
+- IAM policies and roles
+- fine grained access
+- cloudwatch and cloudtrail
+- vpc endpoints
+
 ## **Redshift**
 
 ---
@@ -278,7 +385,7 @@ once the RDS is encrypted, the data stored is encrypted, automated backups, read
 - backup
 - data transfer (within a vpc, not outside it)
 
-### security
+### redshift security
 
 - encrypted in transit using SSL
 - encrypted at rest using AES-256 encryption
@@ -357,3 +464,124 @@ memcached:
 - multi-threaded performance
 - scale horizontally
 - simple to start with
+
+## **DMS**
+
+---
+
+- facilitates the migration of relational db, data warehouses, NoSQL db, and other types of data stores
+- between
+  - on prem to cloud
+  - on prem to on prem
+  - cloud to cloud
+  - cloud to prem
+- server in the cloud, that runs a replication software
+- source
+- target
+- schedule a task
+- DMS creates tables, and associated pk
+- you can pre-create the target tables, or use schema conversion tool (SCT)
+
+### Homogenous migrations
+
+- same engine
+- oracle to oracle
+- doesn't need SCT
+
+![homogenous-dms](/aws/associate-level/solutions-architect/media/homogenous-dms.PNG)
+
+### heterogeneous migrations
+
+- different engine
+- sql server to aurora
+- needs SCT
+
+![heterogenous-dms](/aws/associate-level/solutions-architect/media/heterogenous-dms.PNG)
+
+### Sources
+
+- on-prem and ec2 instances
+  - oracle
+  - sql
+  - mysql
+  - mariadb
+  - postgre
+  - sap
+  - mongodb
+  - db2
+- azure sql database
+- amazon rds (aurora)
+- s2
+
+### targets
+
+- on-prem and ec2 instances
+  - oracle
+  - sql
+  - mysql
+  - mariadb
+  - postgre
+  - sap
+- rds
+- redshift
+- dynamodb
+- s3
+- elasticsearch
+- kinesis data stream
+- documentDB
+
+## **Caching strategies**
+
+---
+
+- cloudfront
+  - caches origin (s3, ec2)
+- API GW
+- ElasticCache
+  - Memcached
+  - redis
+- DAX
+- the closer the caching to the end user you put in front, the lower the latency
+
+## **EMR**
+
+---
+
+- big data platform
+- uses tools such as
+  - hive
+  - spark
+  - flink
+  - hudi
+  - presto
+- run petabyte scale analysis at less half the cost of traditional on-prem solutions
+- 3x faster that apache spark
+- periodically archive log files stored on the master node to S3
+  - 5 minutes intervals
+  - only when creating cluster
+
+### cluster
+
+- collection of EC2
+- each instance is called a node
+- each node has a role
+  - node type
+- different sw components on each node type
+
+### Master node
+
+- manages the cluster
+- every cluster has
+- tracks the status of tasks
+- monitor the health
+
+### Core node
+
+- run tasks and stores data in hadoop distributed file system (HDFS)
+- multi-node have at least one core node
+
+### Task node
+
+- optional
+- only runs tasks
+- doesn't store data in HDFS
