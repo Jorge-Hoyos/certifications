@@ -8,7 +8,7 @@
     - [host based fw](#host-based-fw)
     - [ALB](#alb)
     - [NLB](#nlb)
-    - [WAF](#waf)
+    - [WAF - threat](#waf---threat)
   - [**Key management service - KMS**](#key-management-service---kms)
     - [AWS managed CMK](#aws-managed-cmk)
     - [Customer managed CMK](#customer-managed-cmk)
@@ -26,7 +26,7 @@
   - [**Shield**](#shield)
     - [Shield Standard](#shield-standard)
     - [Shield Advanced](#shield-advanced)
-  - [**WAF**](#waf-1)
+  - [**WAF**](#waf)
     - [Behaviors](#behaviors)
     - [request properties](#request-properties)
   - [**Firewall manager**](#firewall-manager)
@@ -69,7 +69,7 @@
 - client IP is visible end to end
 - should use NACL to block IP
 
-### WAF
+### WAF - threat
 
 - IP blocking and filtering
 - operates at layer 7
