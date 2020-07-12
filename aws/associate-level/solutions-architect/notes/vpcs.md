@@ -2,29 +2,33 @@
 
 - [**VPCs**](#vpcs)
   - [**VPC Overview**](#vpc-overview)
-    - [VPC features](#vpc-features)
-    - [Default VPC](#default-vpc)
-    - [Peering](#peering)
-    - [VPC notes](#vpc-notes)
+    - [**VPC features**](#vpc-features)
+    - [**Default VPC**](#default-vpc)
+    - [**Peering**](#peering)
+    - [**VPC notes**](#vpc-notes)
   - [**create VPC**](#create-vpc)
-    - [creating a VPC](#creating-a-vpc)
-    - [creating subnet](#creating-subnet)
-    - [creating IGW](#creating-igw)
-    - [Configuring route table](#configuring-route-table)
-    - [Creating notes](#creating-notes)
+    - [**creating a VPC**](#creating-a-vpc)
+    - [**creating subnet**](#creating-subnet)
+    - [**creating IGW**](#creating-igw)
+    - [**Configuring route table**](#configuring-route-table)
+    - [**Creating notes**](#creating-notes)
   - [**NAT instances**](#nat-instances)
   - [**NAT gateway**](#nat-gateway)
   - [**NACLs**](#nacls)
-    - [NACL notes](#nacl-notes)
+    - [**NACL notes**](#nacl-notes)
   - [**VPC Flow logs**](#vpc-flow-logs)
   - [**Bastion Hosts**](#bastion-hosts)
   - [**Direct connect**](#direct-connect)
-    - [How to create direct connect](#how-to-create-direct-connect)
+    - [**How to create direct connect**](#how-to-create-direct-connect)
   - [**global accelerator**](#global-accelerator)
-    - [components](#components)
+    - [**components**](#components)
   - [**VPC endpoint**](#vpc-endpoint)
-    - [Interface endpoints](#interface-endpoints)
-    - [Gateway endpoints](#gateway-endpoints)
+    - [**Interface endpoints**](#interface-endpoints)
+    - [**Gateway endpoints**](#gateway-endpoints)
+  - [**VPC Private Links**](#vpc-private-links)
+  - [**Transit Gateway**](#transit-gateway)
+  - [**VPN CloudHub**](#vpn-cloudhub)
+  - [**Network Cost**](#network-cost)
 
 ## **VPC Overview**
 
@@ -64,7 +68,7 @@
   - 192.168.0.0/16
 - <https://cidr.xyz/>
 
-### VPC features
+### **VPC features**
 
 - launch ec2 into subnets
 - assign custom IP address ranges in each subnet
@@ -74,7 +78,7 @@
 - individual SG
 - subnet network access control lists (ACLS)
 
-### Default VPC
+### **Default VPC**
 
 - user friendly
 - all subnets have route out to the internet
@@ -82,7 +86,7 @@
 - can be recovered if deleted
 - comes with a default ACL, by default allows all inbound and outbound traffic
 
-### Peering
+### **Peering**
 
 - connect 1 vpc to another
   - via direct network route, using private ip addresses
@@ -92,7 +96,7 @@
 - peering is in a star configuration: ie 1 central VPC peers with 4 others
   - NO TRANSITIVE PEERING!
 
-### VPC notes
+### **VPC notes**
 
 - logical datacenters in AWS
 - resources
@@ -109,7 +113,7 @@
 
 ---
 
-### creating a VPC
+### **creating a VPC**
 
 - The allowed block size is between a /28 netmasks and /16 netmasks
 - creates
@@ -121,7 +125,7 @@
   - subnets
   - IGW
 
-### creating subnet
+### **creating subnet**
 
 - The CIDR block of a subnet can be the same as the CIDR block for the VPC (for a single subnet in the VPC), or a subset of the CIDR block for the VPC (for multiple subnets). The allowed block size is between a /28 netmasks and /16 netmasks. If you create more than one subnet in a VPC, the CIDR blocks of the subnets cannot overlap.
 - can choose AZ
@@ -134,13 +138,13 @@
   - 10.0.0.3: Reserved by AWS for future use.
   - 10.0.0.255: Network broadcast address. We do not support broadcast in a VPC, therefore we reserve this address.
 
-### creating IGW
+### **creating IGW**
 
 - when created is detached
 - attach to vpc
 - only one IGW per VPC
 
-### Configuring route table
+### **Configuring route table**
 
 - can have subnets communicating between each other
 - have 2 route table
@@ -150,7 +154,7 @@
     - target is IGW
 - main route tables, is where subnets are created
 
-### Creating notes
+### **Creating notes**
 
 - new VPCs create RT, NACL and a default SG
 - it wont create subnets nor IGW
@@ -211,7 +215,7 @@
   - a deny must be before an allow
 - have separate inbound and outbound rules
 
-### NACL notes
+### **NACL notes**
 
 - changes take place immediately
 - evaluated before SG
@@ -267,7 +271,7 @@
 
 ![direct-connect](/aws/associate-level/solutions-architect/media/direct-connect.PNG)
 
-### How to create direct connect
+### **How to create direct connect**
 
 - Create a public virtual interface
 - Create customer gateway
@@ -287,7 +291,7 @@
 - by default global accelerator provides two static ip addresses
   - you can bring your own
 
-### components
+### **components**
 
 - static ip addresses
 - accelerator
@@ -326,7 +330,7 @@
 - connect an ENI to a EC2 to be able to communicate to other AWS services without needing to transfers the internet
 - traffic doesn't leave the amazon network
 
-### Interface endpoints
+### **Interface endpoints**
 
 - ENI with a private IP that serves as an entry point for traffic destined to a supported service
 - services
@@ -334,8 +338,50 @@
   - CFN
   - cloudwatch
 
-### Gateway endpoints
+### **Gateway endpoints**
 
 - services
   - S3
   - Dynamo
+
+## **VPC Private Links**
+
+---
+
+- allows to open service in a vpc to another vpc
+- sharing your application within your vpc to one or more vpcs
+- doesn't require vpc peering, route table, NAT, IGWs, etc
+- requirers a NLB on the service VPC and an ENI on the customer VPC
+- tens, hundreds or thousands vpcs
+
+## **Transit Gateway**
+
+---
+
+- way to simplify network typology
+- single point where all your networks can connect to
+  - VPN
+  - VPC
+  - direct connect gateway
+- allows to have transitive peering between thousand of VPCs and op-prem data center
+- works on a hub and spoke model
+- cross accounts with RAM
+- use route table to limit VPC connections
+- support IP multi cast
+
+## **VPN CloudHub**
+
+---
+
+- connect multiple sites, each with its own vpn connection
+- works on a hub and spoke model
+- operates over the public internet
+
+## **Network Cost**
+
+---
+
+- cross AZ cost
+- if going outside the internet cost more
+- inter region cost
+- private ip saves cost over public ip

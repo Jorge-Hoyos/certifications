@@ -23,6 +23,8 @@
       - [use predictive scaling](#use-predictive-scaling)
   - [**HA Architecture notes**](#ha-architecture-notes)
   - [**Elastic Beanstalk**](#elastic-beanstalk)
+  - [**HA with Bastions**](#ha-with-bastions)
+  - [**On-premises strategies with AWS**](#on-premises-strategies-with-aws)
 
 ## **Load Balancers**
 
@@ -182,3 +184,20 @@
   - security
   - software
 - don't have to worry about the infrastructure that runs the applications
+
+## **HA with Bastions**
+
+---
+
+- two ec2 instances with a network load balancer redirecting traffic to the bastions behind
+- one ec2 instance with an autoscaling group
+
+## **On-premises strategies with AWS**
+
+---
+
+- DMS
+- SMS - server migration service
+- AWS application discovery service
+- VM import/export
+- Download amazon linux as an ISO

@@ -11,12 +11,12 @@
   - improve software quality
   - Reduce time it takes to validate an release new updates
 
-## Why is needed
+## **Why is needed**
 
 - Reduce time merging codes from developers
 - Reduce complexity
 
-## How does it work
+## **How does it work**
 
 - Commit to a shared repository
 - Run local unit tets before integrating
@@ -27,7 +27,7 @@
 
 - Every code change is build, tested and prepared for a release to production.
 
-## Benefits
+## **Benefits**
 
 - Improve developer productivity
   - Freeing developers from manual tasks

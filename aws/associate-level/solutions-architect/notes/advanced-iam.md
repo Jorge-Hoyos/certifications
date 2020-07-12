@@ -1,6 +1,21 @@
 # **Advanced IAM**
 
 - [**Advanced IAM**](#advanced-iam)
+  - [**Directory service**](#directory-service)
+    - [Active directory](#active-directory)
+    - [managed microsoft AD](#managed-microsoft-ad)
+      - [Customer responsibilities](#customer-responsibilities)
+    - [Simple AD](#simple-ad)
+    - [AD connector](#ad-connector)
+    - [Cloud directory](#cloud-directory)
+    - [Cognito user pools](#cognito-user-pools)
+  - [**IAM policies**](#iam-policies)
+    - [ARN](#arn)
+    - [IAM policies](#iam-policies-1)
+    - [Permission boundaries](#permission-boundaries)
+    - [IAM Notes](#iam-notes)
+  - [**Resource access manager (RAM)**](#resource-access-manager-ram)
+  - [**SSO**](#sso)
 
 ## **Directory service**
 

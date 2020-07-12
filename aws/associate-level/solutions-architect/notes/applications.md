@@ -91,6 +91,7 @@
 - long polling doesn't return a response until a message arrives in the queue, or times out
 - ec2 asking constantly for messages incurs a cots
   - implement long polling
+- when the ReceiveMessageWaitTimeSeconds property of a queue is set to a value greater than zero
 
 ### SQS notes
 
@@ -294,6 +295,7 @@ is data that is generated continuously by thousands of data sources, send the da
   - destinations
 - load streaming data into data stores and analytics tools
 - capture, transform, and load streaming data into Amazon S3
+- Send data to splunk
 
 ### Kinesis Analytics
 

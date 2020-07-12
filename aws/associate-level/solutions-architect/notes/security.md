@@ -2,40 +2,40 @@
 
 - [**Security**](#security)
   - [**Reducing security threats**](#reducing-security-threats)
-    - [Bad actors](#bad-actors)
-      - [Benefits of preventing bad actors](#benefits-of-preventing-bad-actors)
-    - [NACL](#nacl)
-    - [host based fw](#host-based-fw)
-    - [ALB](#alb)
-    - [NLB](#nlb)
-    - [WAF - threat](#waf---threat)
+    - [**Bad actors**](#bad-actors)
+      - [**Benefits of preventing bad actors**](#benefits-of-preventing-bad-actors)
+    - [**NACL**](#nacl)
+    - [**host based fw**](#host-based-fw)
+    - [**ALB**](#alb)
+    - [**NLB**](#nlb)
+    - [**WAF - threat**](#waf---threat)
   - [**Key management service - KMS**](#key-management-service---kms)
-    - [AWS managed CMK](#aws-managed-cmk)
-    - [Customer managed CMK](#customer-managed-cmk)
-    - [AWS owned CMK](#aws-owned-cmk)
-    - [Symmetric](#symmetric)
-    - [Asymmetric](#asymmetric)
-    - [KMS policy](#kms-policy)
-    - [KMS notes](#kms-notes)
+    - [**AWS managed CMK**](#aws-managed-cmk)
+    - [**Customer managed CMK**](#customer-managed-cmk)
+    - [**AWS owned CMK**](#aws-owned-cmk)
+    - [**Symmetric**](#symmetric)
+    - [**Asymmetric**](#asymmetric)
+    - [**KMS policy**](#kms-policy)
+    - [**KMS notes**](#kms-notes)
   - [**CloudHSM**](#cloudhsm)
   - [**Systems Manager Parameter Store - SSM**](#systems-manager-parameter-store---ssm)
-    - [hierarchies](#hierarchies)
-    - [Standard](#standard)
-    - [Advanced](#advanced)
+    - [**hierarchies**](#hierarchies)
+    - [**Standard**](#standard)
+    - [**Advanced**](#advanced)
   - [**Secrets manager**](#secrets-manager)
   - [**Shield**](#shield)
-    - [Shield Standard](#shield-standard)
-    - [Shield Advanced](#shield-advanced)
+    - [**Shield Standard**](#shield-standard)
+    - [**Shield Advanced**](#shield-advanced)
   - [**WAF**](#waf)
-    - [Behaviors](#behaviors)
-    - [request properties](#request-properties)
+    - [**Behaviors**](#behaviors)
+    - [**request properties**](#request-properties)
   - [**Firewall manager**](#firewall-manager)
 
 ## **Reducing security threats**
 
 ---
 
-### Bad actors
+### **Bad actors**
 
 - automated processes
 - content scrapers
@@ -43,33 +43,33 @@
 - fake user agent
 - DoS
 
-#### Benefits of preventing bad actors
+#### **Benefits of preventing bad actors**
 
 - reduce security threats
 - lower overall costs
 
-### NACL
+### **NACL**
 
 - deny user access based on their IP
 - block a certain IP or a range of IPs
 - operates at layer 4
 
-### host based fw
+### **host based fw**
 
 - linux fws
 - windows fw
 
-### ALB
+### **ALB**
 
 - connection terminates at ALB
 
-### NLB
+### **NLB**
 
 - traffic passes through NLB
 - client IP is visible end to end
 - should use NACL to block IP
 
-### WAF - threat
+### **WAF - threat**
 
 - IP blocking and filtering
 - operates at layer 7
@@ -99,12 +99,12 @@
 - multi tenant
 - select key administrator and key user
 
-### AWS managed CMK
+### **AWS managed CMK**
 
 - free
 - used by default in most services
 
-### Customer managed CMK
+### **Customer managed CMK**
 
 - you create
 - symmetric by default
@@ -112,12 +112,12 @@
 - key policies
   - who can use it
 
-### AWS owned CMK
+### **AWS owned CMK**
 
 - used by AWS on a shared basis across many accounts
 - you wont see these
 
-### Symmetric
+### **Symmetric**
 
 - same key used for encryption and encryption
 - AES-256
@@ -127,7 +127,7 @@
 - encrypt, decrypt and re-encrypt data
 - import your own key material
 
-### Asymmetric
+### **Asymmetric**
 
 - mathematically related public/private key pair
 - based on RSA and ECC algorithms
@@ -136,11 +136,11 @@
 - used outside AWS by users who cant call KMS APIs
 - AWS services integrated with KMS do not support asymmetric CMKs
 
-### KMS policy
+### **KMS policy**
 
 - grants permission to certain identities to used the key
 
-### KMS notes
+### **KMS notes**
 
 - can have an alias
   - must have alias/ prefix
@@ -186,7 +186,7 @@ aws kms decrypt --ciphertext-blob id fileb://topsecret.txt.encrypted --output te
 - set TTL to expire values such as passwords
   - password rotation
 
-### hierarchies
+### **hierarchies**
 
 - up to 15 levels deep
 - use hierarchies to store parameters
@@ -197,7 +197,7 @@ aws kms decrypt --ciphertext-blob id fileb://topsecret.txt.encrypted --output te
 - GetParametersByPath to retrieve all parameters in a hierarchy
   - /dev
 
-### Standard
+### **Standard**
 
 - limit of 10000 parameters
 - up to 4 KB
@@ -209,7 +209,7 @@ aws kms decrypt --ciphertext-blob id fileb://topsecret.txt.encrypted --output te
   - secureString
     - encrypted by KMS key
 
-### Advanced
+### **Advanced**
 
 - more that 10000 parameters
 - up to 8 KB
@@ -239,14 +239,14 @@ aws kms decrypt --ciphertext-blob id fileb://topsecret.txt.encrypted --output te
   - cross site scripting
 - sits at the edge of AWS perimeter network
 
-### Shield Standard
+### **Shield Standard**
 
 - automatically enabled for all customer at no cost
 - protect against common layer 3 and 4 attacks
   - SYN/UDP floods
   - reflection attacks
 
-### Shield Advanced
+### **Shield Advanced**
 
 - 3000 per month per org
 - enhanced protection for
@@ -273,13 +273,13 @@ aws kms decrypt --ciphertext-blob id fileb://topsecret.txt.encrypted --output te
   - SQL query injection
 - block traffic return 403 forbidden code
 
-### Behaviors
+### **Behaviors**
 
 - allow all request, except the ones you specify
 - block all request, except the ones you specify
 - count the request that match the properties you specify
 
-### request properties
+### **request properties**
 
 - origination IP address
 - originating country

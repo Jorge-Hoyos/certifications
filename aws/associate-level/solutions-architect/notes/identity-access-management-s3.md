@@ -679,7 +679,7 @@
 
 #### tape gateway (VTL)
 
-- durable, cost-effective solution to archive your daa in the AWS cloud
+- durable, cost-effective solution to archive your data in the AWS cloud
 - getting rid of tapes
 
 ## **Athena**

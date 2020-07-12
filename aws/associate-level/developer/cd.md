@@ -1,8 +1,11 @@
-# Continuos delivery
+# **Continuos delivery**
 
-[What is Continuous Delivery?](https://aws.amazon.com/devops/continuous-delivery/)
+- [**Continuos delivery**](#continuos-delivery)
+  - [**Explanation**](#explanation)
+  - [**Continuos delivery vs continuos deployment**](#continuos-delivery-vs-continuos-deployment)
+  - [**Benefits**](#benefits)
 
-## Explanation
+## **Explanation**
 
 > software development practice where code changes are automatically prepared for a release to production
 
@@ -12,22 +15,22 @@
   - Load testing
   - Integration testing
 
-## Continuos delivery vs continuos deployment
+## **Continuos delivery vs continuos deployment**
 
 **Delivery**:
 
 every code change is built, test and then push to a testing environment
 
+Continuos delivery:
 need manual approval
 
-|:
-
+Continuos deployment:
 doesn't need manual approval
 
 ![continuos integration](media/continuous_integration.png)
 *Automates the entire software release process*
 
-## Benefits
+## **Benefits**
 
 - Automate the software release process
   - Deliver efficiently and rapid
