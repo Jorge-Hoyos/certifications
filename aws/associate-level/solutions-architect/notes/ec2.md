@@ -10,6 +10,7 @@
         - [schedule RI](#schedule-ri)
       - [spot](#spot)
       - [dedicated hosts](#dedicated-hosts)
+    - [Saving plans](#saving-plans)
     - [instance types](#instance-types)
     - [EC2 Notes](#ec2-notes)
   - [**AMI**](#ami)
@@ -20,8 +21,9 @@
     - [encrypt unencrypted volumes](#encrypt-unencrypted-volumes)
     - [General purpose (SSD gp2)](#general-purpose-ssd-gp2)
     - [provisioned iops (SSD - io1)](#provisioned-iops-ssd---io1)
+    - [Provisioned IOPS SSD (io2)](#provisioned-iops-ssd-io2)
     - [throughput optimized HDD (st1)](#throughput-optimized-hdd-st1)
-    - [cold hard disk drive (sc1)](#cold-hard-disk-drive-sc1)
+    - [cold hard disk drive HDD (sc1)](#cold-hard-disk-drive-hdd-sc1)
     - [magnetic](#magnetic)
     - [EBS Notes](#ebs-notes)
   - [**Spot instances**](#spot-instances)
@@ -95,10 +97,11 @@
 - the more you pay up front the more you save
 - app with steady state or predictable usage
 - users that able to make up front payment reducing costs
+- Regional, meaning that you reserve capacity in a specific region
 
 ##### standard RI
 
-- up to 75%
+- up to 72%
 - the more you pay up front and the longer the contract the greater the discount
 - cannot change the region
 
@@ -115,6 +118,7 @@
 #### spot
 
 - bid for execs capacity
+- discount up to 90%
 - you set the price you want to bid up
   - if it hits the price you have the instance
   - if it goes above you will lose the instances
@@ -135,9 +139,19 @@
   - on demand
   - reservation
 
+### Saving plans
+
+- save up to 72% on all compute usage regardless of instance type or region
+- commit to one or three years to use a specific amount of compute
+- super flexible (lambda and fargate)
+
 ### instance types
 
 ![EC2 instance types](/aws/foundational-level/cloud-practitioner/notes/media/EC2-instances-types.PNG)
+
+- Hardware, instance type determines the hardware of the host computer for your instance
+- Capabilities, differente compute memory and storage capabilities, group on instance families
+- Application requirements, select an instance type based on the requirements of the app
 
 ### EC2 Notes
 
@@ -202,11 +216,14 @@
 > elastic block store, provides persistent block storage volumes for use with amazon EC2
 
 - virtual hard disk in the cloud
+- at least 1 ebs attached, where the OS is installed
+- HA and replicated by default
+- scalable, dynamically increase capacity and change volume type with no downtime
 - each ebs is replicated withins itz AZ to protect from failure
 - root device volume, where the OS is installed
   - can only by gp2, io1, magnetic standard
   - can be encrypted
-- IOPS = Inputs Outputs per Second, how fas is the HDD
+- IOPS = Inputs Outputs per Second, how fast is the HDD
 - extra volumes can be gp2, io1, magnetic standard, cold HDD (sc1), throughput optimized HDD (st1)
 - Shares AZ with EC2 instances
 - can change values on the fly (storage, volume type, iops)
@@ -232,23 +249,42 @@
 ### General purpose (SSD gp2)
 
 - ssd volumes of balanced price and performance
+- 3 IOS per GiB
 - most workloads
+- Boot volumes
+- not latency sensitive
 - up to 16000 IOPS
 
 ### provisioned iops (SSD - io1)
 
 - really fast IOPS
+- high performance option, most expensice
+- 50 IOPS per GiB
 - mission critical applications
 - databases
 - 64000 IOPS
+- 99.9% durability
+
+### Provisioned IOPS SSD (io2)
+
+- higher durability
+- and more IOPS
+- still 64000 max per volume
+- same price as io1
+- 500 iops per GiB
+- 99.999% durability
 
 ### throughput optimized HDD (st1)
 
 - physical hard disk drive (magnetic)
-- big data and data warehouses
+- low cost
+- huge ammount in data
+- baseline througput of 40 MB/s per TB
+- big data and data warehouses, ETL, log processing
+- cannot be a boot volume
 - 500 IOPS
 
-### cold hard disk drive (sc1)
+### cold hard disk drive HDD (sc1)
 
 - file servers
 - lowest cost

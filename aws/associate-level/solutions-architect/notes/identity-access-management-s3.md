@@ -25,6 +25,7 @@
       - [S3 - glacier](#s3---glacier)
         - [retrievals](#retrievals)
       - [S3 - glacier deep archive](#s3---glacier-deep-archive)
+      - [S3 - Outposts](#s3---outposts)
       - [RRS (Reduce Redundance storage)](#rrs-reduce-redundance-storage)
     - [charges](#charges)
     - [Cross region replication](#cross-region-replication)
@@ -159,7 +160,7 @@
 
 > provides secure, durable, highly-scalable object storage
 
-- safe place to store files
+- safe place to store flat files, doesnt change (not a db)
 - object-based storage
   - pics
   - videos
@@ -213,7 +214,9 @@
 - versioning
 - encryption
 - MFA for delete
-- secure data using access control lists and bucket policies
+- secure data using
+  - access control lists, applies for objecets
+  - bucket policies, applies for entire bucket
 
 ### Storage classes
 
@@ -223,6 +226,7 @@
 
 - 99.99% availability
 - 99.999999999 durability
+- stored reduntantly across multiple devices in multiple azs
 - designed to sustain the loss of 2 facilities
 
 #### S3 - IA
@@ -239,7 +243,9 @@
 #### S3 - intelligent tiering
 
 - uses ML
+- looks at usage patterns
 - moves objects to the most cost-effective access tier
+- no performance impact or operational overhead
 
 #### S3 - glacier
 
@@ -258,6 +264,10 @@
 
 - cheapest
 - long retrieval times
+
+#### S3 - Outposts
+
+- deliver object storage to on-premises AWS Outpost environments
 
 #### RRS (Reduce Redundance storage)
 
@@ -284,6 +294,7 @@
 - fast, easy, secure transfer of files over long distances between users and s3
 - uses cloudfront edge locations
   - objects go to the edge location than routed to s3 using amazon network
+- doesnt go in the public internet, travels in amazon private fast network
 
 ### Datasync
 
@@ -317,9 +328,12 @@
 ### Security
 
 - by default all newly created bucket are private
+- only the owner of the bucket gets acces to the bucket and its contents
 - control access to bucket by
   - bucket policies
+    - bucket level, all objects in the bucket, JSON
   - access control lists
+    - object level, different policies for different objects, fine grain access
 - Can be configured to create access logs, which log all requests made to the s3 bucket
   - this logs can be sent to another bucket or another bucket in another account
 

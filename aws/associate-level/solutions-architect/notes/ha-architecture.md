@@ -37,8 +37,9 @@
 
 - best suited for HTTP and HTTPS traffic
 - intelligent routing decisions
-- operate at layer 7
+- operate at OSI layer 7
 - application aware
+- can go all the way to the app
 - advanced request routing, sending specified requests to specific web servers
 
 #### sticky sessions alb
@@ -51,6 +52,7 @@
 - operates at layer 4 (connection level)
 - millions of request per second, with ultra low latencies
 - use for extreme performance
+- most expensive load balancers
 
 ### Classic load balancers
 

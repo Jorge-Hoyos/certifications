@@ -2,7 +2,7 @@
 
 - [**Databases On AWS**](#databases-on-aws)
   - [**Databases 101**](#databases-101)
-    - [Relational databases (SQL - OLTP)](#relational-databases-sql---oltp)
+    - [RDS Relational databases (SQL - OLTP)](#rds-relational-databases-sql---oltp)
       - [SQL server](#sql-server)
       - [Oracle](#oracle)
       - [MySQL](#mysql)
@@ -55,6 +55,8 @@
     - [Aurora serverless](#aurora-serverless)
   - [**Elasticache**](#elasticache-1)
     - [Memcached vs redis](#memcached-vs-redis)
+      - [redis](#redis-1)
+      - [memcached](#memcached-1)
   - [**DMS**](#dms)
     - [Homogenous migrations](#homogenous-migrations)
     - [heterogeneous migrations](#heterogeneous-migrations)
@@ -71,13 +73,14 @@
 
 ---
 
-### Relational databases (SQL - OLTP)
+### RDS Relational databases (SQL - OLTP)
 
 - traditional spreadsheet
   - database
   - tables
   - row
   - fields (columns)
+- OLTP
 
 #### SQL server
 
@@ -88,6 +91,8 @@
 #### MariaDB
 
 #### Aurora
+
+- amazon own rds flavor
 
 #### PostgreSQL
 
@@ -115,6 +120,7 @@
 - used for BI
 - used to pull in very large and complex data sets
 - do queries on data
+- OLAP
 - different type of architecture from a DB perspective and infrastructure layer
 
 ### OLTP
@@ -163,6 +169,8 @@
 - store in s3
 - free storage equal to the size of your DB
 - taken within a defined window
+- during the backup window, storage I/O may be suspended while your data is being backed up
+  - elevated latency
 - deleted with the instance
 
 ### Database snapshots
@@ -173,6 +181,9 @@
 ### backups notes
 
 - when restoring, the RDS will have a new DNS endpoint
+- restoring can be set up to the second
+- will select an snapshot and apply transaction logs
+- snapshots can be encrypted and restore a db from the snapshot to create an encrypted db
 
 ## **Encryption**
 
@@ -190,6 +201,7 @@ supported for:
 - Aurora
 
 encryption is done using KMS
+
 once the RDS is encrypted, the data stored is encrypted, automated backups, read replicas and snapshots
 
 ## **Multi AZ**
@@ -197,9 +209,11 @@ once the RDS is encrypted, the data stored is encrypted, automated backups, read
 ---
 
 - allows you to have an exact copy of your production DB in another AZ
+- synchronous
 - AWS handles the replication
 - RDS automatically failover to the standby in case of failures
   - no manual intervention
+  - aws changes the dns endpoint to the ipv4 of the standby
 - for DR only
 - only for
   - MySQL
@@ -225,7 +239,7 @@ once the RDS is encrypted, the data stored is encrypted, automated backups, read
 - can be promoted to its own DB
   - breaks the read replication
 - can be in another region
-- SQL server doesn't support read replicas
+- SQL server or oracle doesn't support read replicas
 
 ## **DynamoDB**
 
@@ -448,22 +462,34 @@ once the RDS is encrypted, the data stored is encrypted, automated backups, read
 - improves the performance of webb app, by allowing to retrieve information from fast, managed, in-memory caches
 - works on SSD
 - caches the most common queries in elasticache
+- improve latency for read-heavy application workload
+- storing critical pieces of data in memory for low latency access
+- the more your cache the more you reduce workload of the db
 
 ### Memcached vs redis
 
 ![memcached-redis](/aws/associate-level/solutions-architect/media/memcached-redis.PNG)
 
-redis:
+#### redis
 
+- open source
+- key value store, lists, hashes and sets
+- data sorting and ranking, leaderborad
 - backups and restore
 - multi AZ
 - advanced data types
+- elasticache manages redis like an RDS
+- clusters are managed as stateful entities that includes failover
 
-memcached:
+#### memcached
 
+- memory object caching system
+- simple
 - multi-threaded performance
 - scale horizontally
 - simple to start with
+- pure caching with no persistence
+- node pool that can grow and shrinc like EC2 auto scaling
 
 ## **DMS**
 
