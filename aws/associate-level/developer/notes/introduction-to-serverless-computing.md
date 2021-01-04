@@ -109,3 +109,5 @@ SOAP APIs (Simple Object Access Protocol):
 - On way the server at the other end (not the client code in the browser) can relax the same-origin policy
 - a way for API GW to talk to S3
 - CORS is a mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served
+- allowing code that is in one bucket, reference code that is in another bucket
+- by default objects cannot reach each other in other buckets

@@ -61,7 +61,7 @@
     - [Origin](#origin)
     - [Distribution](#distribution)
       - [Web distribution](#web-distribution)
-      - [RTMP](#rtmp)
+      - [RTMP - Real time mesagging protocol](#rtmp---real-time-mesagging-protocol)
     - [Signed URLs](#signed-urls)
     - [Signed cookies](#signed-cookies)
     - [Signed policy](#signed-policy)
@@ -342,12 +342,22 @@
 > if you go https, means the traffic is encrypted in transit
 
 - in transit achieved by
+  - encrypting the data you are sending to an from the buckets
   - SSL/TLS
 - at rest (server side)
   - s3 managed keys - SSE - s3 (aws manages the keys, AES-256)
   - aws key management service, managed keys, SSE - KMS (you and AWS manage keys together)
   - server side encryption with customer provided keys - SSE - C (you manage the keys, give it to aws to encrypt bucket)
   - client side encryption (encrypt the object before uploading)
+- if the file is to be encrypted at upload time, the x-amz-server-side-encryption parameter will be invluded in the request header
+  - x-amz-server-side-encryption: AES256
+  - x-amz-server-side-encryption: ams:kms
+  - reject message based in the contents of the header
+  - tells s3 to encrypt object at the time of upload, using the method
+  - create a bucket policy that denies any S3 put that doesnt include the parameter
+- encryption can be enforced by
+  - bucket policy
+  - bucket configuration
 
 ### versioning
 
@@ -399,6 +409,12 @@
 - get better performance spreading actions across prefixes
   - two prefixes achieve 11000 requests per second
   - four prefixes achieve 22000 requests per second
+- GET intensive workloads use cloudfront
+- Mixed workload avoid sequential key names
+- (deprecated) use random prefix to foce S3 to distribute your keys across multiple partitions
+  - spread workloads of IOs
+  - sequential key names are not optimal (2018-03-24/file.jpg)
+  - random key names are optimal (7et32-2018-03-24/file.jpg)
 
 #### KMS Limits
 
@@ -567,11 +583,14 @@
   - useful for signed urls
 - restrict access using signed URLs or cookies
 - can use WAFs
+- works with private web servers as well
 
 ### Edge location
 
 - location where the content is cached
+- you can also write content to an edge location
 - separated to an AWS region/az
+- more edge locations than regions and AZs
 
 ### Origin
 
@@ -589,8 +608,9 @@
 #### Web distribution
 
 - used for websites
+- HTTP/HTTPS
 
-#### RTMP
+#### RTMP - Real time mesagging protocol
 
 - used for media streaming
 - adobe flash media servers
