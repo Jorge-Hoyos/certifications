@@ -26,4 +26,3 @@ test:
     # - aws version
   variables:
     MY_VAR: foo
-requirements
