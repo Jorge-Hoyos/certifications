@@ -6,3 +6,5 @@ stages:
 test:
   script:
     - echo hello world
+  variables:
+    MY_VAR: foo
