@@ -21,11 +21,11 @@
 ## **IAM Introduction: Users, Groups, Policies**
 
 - Global service
-- Root account, shouldnt be used
+- Root account, shouldn't be used
 - Users represents one person, can be grouped
   - Developers
   - Operations
-- Groups only contiain users, not other groups
+- Groups only contain users, not other groups
 - User can be in multiple groups
 
 ### Permissions
@@ -38,7 +38,7 @@
 
 - All policies assign to a group are inherited by everyone on the group
 - inline policies is only attached to a user
-- consit of
+- consist of
   - version number
   - id - identifier (optional)
   - statement one or more (requires)
@@ -48,8 +48,7 @@
     - action - api call that allows or deny
     - resource - list of aws resource the action applies to
     - condition - when the statement is in effect
-- policies get inheritied in different ways
-
+- policies get inherited in different ways
 
 ## **IAM MFA Overview**
 
@@ -116,7 +115,7 @@
 
 - aws services need to perform actions on your behalf
 - they are like users
-- need permisions assigned
+- need precisions assigned
 - not to be used by people, but by aws resources
 - common roles:
   - ec2 instance roles
