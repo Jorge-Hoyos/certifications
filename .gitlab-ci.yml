@@ -1,11 +1,24 @@
-image: amazon/aws-cli
+# image: amazon/aws-cli
 
 stages:
+  - build-image
   - test
+
+build:
+  image: docker:19.03.12
+  stage: build-image
+  services:
+    - docker:19.03.12-dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t IMAGE_TAG .
+    - docker push IMAGE_TAG
+  variables:
+    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
 
 test:
   script:
     - echo hello world
-    - aws version
+    # - aws version
   variables:
     MY_VAR: foo
