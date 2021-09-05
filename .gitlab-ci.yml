@@ -1,4 +1,4 @@
-image: docker
+image: amazon/aws-cli
 
 stages:
   - test
@@ -6,5 +6,6 @@ stages:
 test:
   script:
     - echo hello world
+    - aws sts get-caller-identity
   variables:
     MY_VAR: foo
