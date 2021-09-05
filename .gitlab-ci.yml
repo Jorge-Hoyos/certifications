@@ -8,6 +8,24 @@ variables:
   DOCKERFILES_DIR: docker
   DEPLOY_PATH: deploy
 
+docker:
+  build-and-push:
+    - echo -e "\e[0Ksection_start:`date +%s`:docker[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Tag and push image"
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $IMAGE_TAG $DOCKERFILES_DIR/
+    - docker push $IMAGE_TAG
+    - echo -e "\e[0Ksection_end:`date +%s`:docker\r\e[0K"
+
+
+.sam:
+  build:
+    - echo -e "\e[0Ksection_start:`date +%s`:sam-build[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Sam Build"
+    - sam build
+    - echo -e "\e[0Ksection_end:`date +%s`:sam-build\r\e[0K"
+  deploy:
+    - echo -e "\e[0Ksection_start:`date +%s`:sam-deploy[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Sam deploy"
+    - sam deploy
+    - echo -e "\e[0Ksection_end:`date +%s`:sam-deploy\r\e[0K"
 
 build:
   image: docker:19.03.12
@@ -18,11 +36,7 @@ build:
   services:
     - docker:19.03.12-dind
   script:
-    - echo -e "\e[0Ksection_start:`date +%s`:docker[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Tag and push image"
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG $DOCKERFILES_DIR/
-    - docker push $IMAGE_TAG
-    - echo -e "\e[0Ksection_end:`date +%s`:docker\r\e[0K"
+    - !reference [.docker, build-and-push]
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
 
@@ -35,7 +49,7 @@ deploy:
         - $DEPLOY_PATH/*
   script:
     - cd $SAM_PATH
-    - sam build
-    - sam deploy
+    - !reference [.sam, build]
+    - !reference [.sam, deploy]
   variables:
     SAM_PATH: $DEPLOY_PATH/certifications-audios
