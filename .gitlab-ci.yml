@@ -14,11 +14,11 @@ build:
     - docker:19.03.12-dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $IMAGE_TAG /docker
+    - docker build -t $IMAGE_TAG $DOCKERFILES_DIR
     - docker push $IMAGE_TAG
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
-    DOCKERFILES_DIR: docker
+    DOCKERFILES_DIR: docker/
 
 test:
   script:
