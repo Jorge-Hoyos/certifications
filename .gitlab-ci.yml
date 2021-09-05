@@ -32,6 +32,7 @@ deploy:
   rules:
     - changes:
         - $DEPLOY_PATH/**/*
+        - $DEPLOY_PATH/*
   script:
     - sam build
     - sam deploy
