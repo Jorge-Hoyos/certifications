@@ -27,7 +27,7 @@ deploy:
   stage: deploy-sam
   rules:
     - changes:
-        - deploy/
+        - deploy/*
   script:
     - sam --version
     - aws --version
