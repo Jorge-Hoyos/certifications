@@ -2,7 +2,7 @@
 
 stages:
   - build-image
-  - test
+  - deploy-sam
 
 build:
   image: docker:19.03.12
@@ -22,9 +22,14 @@ build:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
     DOCKERFILES_DIR: docker
 
-test:
+deploy:
+  image: registry.gitlab.com/jorgehoyos/certifications:latest
+  stage: deploy-sam
+  rules:
+    - changes:
+        - deploy/
   script:
-    - echo hello world
-    # - aws version
+    - sam --version
+    - aws --version
   variables:
     MY_VAR: foo
