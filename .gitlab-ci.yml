@@ -4,6 +4,11 @@ stages:
   - build-image
   - deploy-sam
 
+variables:
+  DOCKERFILES_DIR: docker
+  DEPLOY_PATH: deploy
+
+
 build:
   image: docker:19.03.12
   stage: build-image
@@ -20,16 +25,15 @@ build:
     - echo -e "\e[0Ksection_end:`date +%s`:docker\r\e[0K"
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
-    DOCKERFILES_DIR: docker
 
 deploy:
   image: registry.gitlab.com/jorgehoyos/certifications:latest
   stage: deploy-sam
   rules:
     - changes:
-        - deploy/*
+        - $DEPLOY_PATH/*
   script:
-    - sam --version
-    - aws --version
+    - sam build
+    - sam deploy
   variables:
     MY_VAR: foo
