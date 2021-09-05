@@ -34,7 +34,8 @@ deploy:
         - $DEPLOY_PATH/**/*
         - $DEPLOY_PATH/*
   script:
+    - cd $SAM_PATH
     - sam build
     - sam deploy
   variables:
-    MY_VAR: foo
+    SAM_PATH: $DEPLOY_PATH/certifications-audios
