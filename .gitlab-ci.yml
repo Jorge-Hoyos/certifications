@@ -31,7 +31,7 @@ deploy:
   stage: deploy-sam
   rules:
     - changes:
-        - $DEPLOY_PATH/*
+        - $DEPLOY_PATH/**/*
   script:
     - sam build
     - sam deploy
