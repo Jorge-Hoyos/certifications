@@ -1,0 +1,8 @@
+image: docker
+
+stages:
+  - test
+
+test:
+  script:
+    - echo hello world
