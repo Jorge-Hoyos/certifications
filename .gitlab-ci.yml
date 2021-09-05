@@ -6,6 +6,6 @@ stages:
 test:
   script:
     - echo hello world
-    - aws sts get-caller-identity
+    - aws version
   variables:
     MY_VAR: foo
