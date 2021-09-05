@@ -8,7 +8,7 @@ variables:
   DOCKERFILES_DIR: docker
   DEPLOY_PATH: deploy
 
-docker:
+.docker:
   build-and-push:
     - echo -e "\e[0Ksection_start:`date +%s`:docker[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Tag and push image"
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY

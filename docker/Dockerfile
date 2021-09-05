@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-# Install aws
+# Install aws, pip
 
 RUN apt-get update -y \
   && apt-get install -y unzip curl python3.7 python3-pip
