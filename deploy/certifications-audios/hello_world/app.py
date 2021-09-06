@@ -1,5 +1,4 @@
 import json
-
 # import requests
 
 
@@ -32,11 +31,15 @@ def lambda_handler(event, context):
     #     print(e)
 
     #     raise e
-
+    # message = 'This is the event'.format(event['COMMIT'])
+    # print (message)
+    print (json.dumps(event))
+    body = event['body']
     return {
         "statusCode": 200,
         "body": json.dumps({
             "message": "hello world from aws.",
+            "commit": body
             # "location": ip.text.replace("\n", "")
         }),
     }
