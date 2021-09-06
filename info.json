@@ -1,0 +1,41 @@
+{
+    "Stacks": [
+        {
+            "StackId": "arn:aws:cloudformation:us-east-1:206123920467:stack/certifications-audios/b9ecd9c0-0e81-11ec-acd0-0eb35faf783f",
+            "StackName": "certifications-audios",
+            "ChangeSetId": "arn:aws:cloudformation:us-east-1:206123920467:changeSet/samcli-deploy1630873320/84766f58-daec-447c-ae0b-29bd47993c44",
+            "Description": "certifications-audios\nSample SAM Template for certifications-audios\n",
+            "CreationTime": "2021-09-05T19:44:47.617000+00:00",
+            "LastUpdatedTime": "2021-09-05T20:22:11.227000+00:00",
+            "RollbackConfiguration": {},
+            "StackStatus": "UPDATE_COMPLETE",
+            "DisableRollback": false,
+            "NotificationARNs": [],
+            "Capabilities": [
+                "CAPABILITY_IAM"
+            ],
+            "Outputs": [
+                {
+                    "OutputKey": "HelloWorldFunctionIamRole",
+                    "OutputValue": "arn:aws:iam::206123920467:role/certifications-audios-HelloWorldFunctionRole-Z8B0KSP90O82",
+                    "Description": "Implicit IAM Role created for Hello World function"
+                },
+                {
+                    "OutputKey": "HelloWorldApi",
+                    "OutputValue": "https://bzytjltsw7.execute-api.us-east-1.amazonaws.com/Prod/hello/",
+                    "Description": "API Gateway endpoint URL for Prod stage for Hello World function"
+                },
+                {
+                    "OutputKey": "HelloWorldFunction",
+                    "OutputValue": "arn:aws:lambda:us-east-1:206123920467:function:certifications-audios-HelloWorldFunction-xT3rA7OoS7r5",
+                    "Description": "Hello World Lambda Function ARN"
+                }
+            ],
+            "Tags": [],
+            "EnableTerminationProtection": false,
+            "DriftInformation": {
+                "StackDriftStatus": "NOT_CHECKED"
+            }
+        }
+    ]
+}

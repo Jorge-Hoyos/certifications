@@ -1,12 +1,14 @@
-# image: amazon/aws-cli
+image: registry.gitlab.com/jorgehoyos/certifications:latest
 
 stages:
   - build-image
   - deploy-sam
+  - call-api
 
 variables:
   DOCKERFILES_DIR: docker
   DEPLOY_PATH: deploy
+  STACK_NAME: certifications-audios
 
 .docker:
   build-and-push:
@@ -15,7 +17,6 @@ variables:
     - docker build -t $IMAGE_TAG $DOCKERFILES_DIR/
     - docker push $IMAGE_TAG
     - echo -e "\e[0Ksection_end:`date +%s`:docker\r\e[0K"
-
 
 .sam:
   build:
@@ -41,7 +42,6 @@ build:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:latest
 
 deploy:
-  image: registry.gitlab.com/jorgehoyos/certifications:latest
   stage: deploy-sam
   rules:
     - changes:
@@ -53,3 +53,11 @@ deploy:
     - !reference [.sam, deploy]
   variables:
     SAM_PATH: $DEPLOY_PATH/certifications-audios
+
+call-api:
+  stage: call-api
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:callapi[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Call Audio API"
+    - AUDIO_API=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='HelloWorldApi'].OutputValue" --output text)
+    - curl $AUDIO_API
+    - echo -e "\e[0Ksection_end:`date +%s`:callapi\r\e[0K"
