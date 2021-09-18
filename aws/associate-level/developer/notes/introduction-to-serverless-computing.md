@@ -21,7 +21,7 @@
 - ways
   - event-driven compute service (trigger)
   - run code response to http request
-- languagues
+- languages
   - node.js
   - java
   - python
@@ -43,7 +43,7 @@
 
 ---
 
-> API: Application programming interface, comunication between systems
+> API: Application programming interface, communication between systems
 
 Fully managed service that makes it easy for developer to publish, maintain, monitor and secure APIs at any scale. APIs acts as a front door for applications to access data, business logic, or functionality from your back-end services.
 
@@ -94,12 +94,12 @@ SOAP APIs (Simple Object Access Protocol):
 - It has to be enabled for a stage
 - It has a TTL in seconds
 - Checks if the request is cached or not
-  - if it is returns the resposne
+  - if it is returns the response
   - if not goes to the service for the response
 
 ### **Same origin policy**
 
-- Web browser permits scripts contained in a first web page to access data in a second web page, but only if both web pages hace the same origin
+- Web browser permits scripts contained in a first web page to access data in a second web page, but only if both web pages have the same origin
 - Prevent cross-site scripting (XSS) attack
 - Enforced by web browsers
 - Ignored by tools like postman and curl

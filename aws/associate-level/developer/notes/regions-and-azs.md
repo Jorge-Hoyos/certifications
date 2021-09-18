@@ -12,7 +12,7 @@
 
 ## **Regions**
 
-- Cluster of data centerls
+- Cluster of data centers
 - All around the world
 - Most AWS services are region-scoped
 
@@ -34,7 +34,7 @@
   - networking
   - connectivity
 - separate from each others
-- connected with high bandwith
+- connected with high bandwidth
 
 ## **Edge location**
 

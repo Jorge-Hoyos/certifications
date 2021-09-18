@@ -10,11 +10,11 @@
 
 ---
 
-- Identity fedaration (including AD, Facebook, linkedIn)
+- Identity federation (including AD, Facebook, linkedIn)
 - Provides temporary access fro user/devices and services, as necessary
 - support PCI DSS compliance
 - IAM is Universal
-- Root account is the email address used when created the account, shouldnt be used
+- Root account is the email address used when created the account, shouldn't be used
 - new user have no permissions at all
 - new users get assigned a access key id and secret access key
 - set up MFA on root account

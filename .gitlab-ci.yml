@@ -61,3 +61,8 @@ call-api:
     - AUDIO_API=$(aws cloudformation describe-stacks --stack-name $STACK_NAME --query "Stacks[0].Outputs[?OutputKey=='HelloWorldApi'].OutputValue" --output text)
     - curl --data "$CI_COMMIT_SHA" $AUDIO_API
     - echo -e "\e[0Ksection_end:`date +%s`:callapi\r\e[0K"
+
+.transform-file:
+  stage: transform-file
+  script:
+    - aws polly start-speech-synthesis-task --output-format mp3 --output-s3-bucket-name jorgehoyos --text file://ec2-fundamentals.md --voice-id Joanna
