@@ -54,6 +54,7 @@ variables:
         - $DEPLOY_PATH/*
   synthesis:
     - changes:
+        - $CERTIFICATIONS_PATHS/**/*
         - $CERTIFICATIONS_PATHS/*
 
 build:
