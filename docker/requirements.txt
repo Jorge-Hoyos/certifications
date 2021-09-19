@@ -1,1 +1,2 @@
 aws-sam-cli==1.30.0
+boto3
