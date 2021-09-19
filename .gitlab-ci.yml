@@ -77,8 +77,10 @@ deploy:
 synthesis-file:
   stage: synthesis-file
   image: $CI_REGISTRY_IMAGE:latest
+  rules:
+    - !reference [.rules, synthesis]
   script:
-    - files=$(git diff-tree --no-commit-id --name-only -r CI_COMMIT_SHA)
+    - files=$(git diff-tree --no-commit-id --name-only -r ${CI_COMMIT_SHA})
     - >
       while IFS= read -r line; do
         IFS='/' read -r -a array <<< "$line"
