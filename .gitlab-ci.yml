@@ -39,7 +39,7 @@ variables:
         IFS='/' read -r -a array <<< "$line"
         echo "$line"
         if [[ ${array[0]} == ${CERTIFICATIONS_PATHS} ]]; then
-          python parse/read-file.py $line
+          python3 parse/read-file.py $line
         fi
       done <<< "$files"
     - echo -e "\e[0Ksection_end:`date +%s`:synthesis-audios\r\e[0K"
