@@ -22,23 +22,23 @@ variables:
 
 .sam:
   build:
-    - echo -e "\e[0Ksection_start:`date +%s`:sam-build[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Sam Build"
+    - echo -e "\e[0Ksection_start:`date +%s`:sam-build[collapsed=false]\r\e[0K${TXT_CYAN_BOLD}Sam Build"
     - sam build
     - echo -e "\e[0Ksection_end:`date +%s`:sam-build\r\e[0K"
   deploy:
-    - echo -e "\e[0Ksection_start:`date +%s`:sam-deploy[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Sam deploy"
+    - echo -e "\e[0Ksection_start:`date +%s`:sam-deploy[collapsed=false]\r\e[0K${TXT_CYAN_BOLD}Sam deploy"
     - sam deploy
     - echo -e "\e[0Ksection_end:`date +%s`:sam-deploy\r\e[0K"
 
 .synthesis:
   script:
-    - echo -e "\e[0Ksection_start:`date +%s`:synthesis-audios[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Synthesising audios"
+    - echo -e "\e[0Ksection_start:`date +%s`:synthesis-audios[collapsed=false]\r\e[0K${TXT_CYAN_BOLD}Synthesising audios"
     - files=$(git diff-tree --no-commit-id --name-only -r ${CI_COMMIT_SHA})
     - >
       while IFS= read -r line; do
         IFS='/' read -r -a array <<< "$line"
         echo "$line"
-        if [[ ${array[0]} == "parse" ]]; then
+        if [[ ${array[0]} == ${CERTIFICATIONS_PATHS} ]]; then
           python parse/read-file.py $line
         fi
       done <<< "$files"
