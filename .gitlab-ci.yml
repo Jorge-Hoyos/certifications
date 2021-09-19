@@ -30,6 +30,20 @@ variables:
     - sam deploy
     - echo -e "\e[0Ksection_end:`date +%s`:sam-deploy\r\e[0K"
 
+.synthesis:
+  script:
+    - echo -e "\e[0Ksection_start:`date +%s`:synthesis-audios[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Synthesising audios"
+    - files=$(git diff-tree --no-commit-id --name-only -r ${CI_COMMIT_SHA})
+    - >
+      while IFS= read -r line; do
+        IFS='/' read -r -a array <<< "$line"
+        echo "$line"
+        if [[ ${array[0]} == "parse" ]]; then
+          python parse/read-file.py $line
+        fi
+      done <<< "$files"
+    - echo -e "\e[0Ksection_end:`date +%s`:synthesis-audios\r\e[0K"
+
 .rules:
   docker:
     - changes:
@@ -41,7 +55,6 @@ variables:
   synthesis:
     - changes:
         - $CERTIFICATIONS_PATHS/*
-
 
 build:
   image: docker:19.03.12
@@ -80,15 +93,7 @@ synthesis-file:
   rules:
     - !reference [.rules, synthesis]
   script:
-    - files=$(git diff-tree --no-commit-id --name-only -r ${CI_COMMIT_SHA})
-    - >
-      while IFS= read -r line; do
-        IFS='/' read -r -a array <<< "$line"
-        echo "$line"
-        if [[ ${array[0]} == "parse" ]]; then
-          python parse/read-file.py $line
-        fi
-      done <<< "$files"
+    - !reference [.synthesis, script]
   artifacts:
     paths:
       - ./*.mp3

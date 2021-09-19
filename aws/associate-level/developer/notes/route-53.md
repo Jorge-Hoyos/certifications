@@ -12,6 +12,7 @@
     - [CNAME](#cname)
     - [Alias](#alias)
       - [targets](#targets)
+  - [**Routing policies**](#routing-policies)
 
 ## **DNS**
 
@@ -117,3 +118,7 @@
 - global accelerator accelerator
 - route 53 records in the same hosted zone
 - NOT FOR ec2 dns name
+
+## **Routing policies**
+
+-
