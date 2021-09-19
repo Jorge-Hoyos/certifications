@@ -4,11 +4,13 @@ stages:
   - build-image
   - deploy-sam
   - call-api
+  - synthesis-file
 
 variables:
   DOCKERFILES_DIR: docker
   DEPLOY_PATH: deploy
   STACK_NAME: certifications-audios
+  CERTIFICATIONS_PATHS: aws
 
 .docker:
   build-and-push:
@@ -28,14 +30,26 @@ variables:
     - sam deploy
     - echo -e "\e[0Ksection_end:`date +%s`:sam-deploy\r\e[0K"
 
-build:
-  image: docker:19.03.12
-  stage: build-image
-  rules:
+.rules:
+  docker:
     - changes:
         - $DOCKERFILES_DIR/*
+  deploy:
+    - changes:
+        - $DEPLOY_PATH/**/*
+        - $DEPLOY_PATH/*
+  synthesis:
+    - changes:
+        - $CERTIFICATIONS_PATHS/*
+
+
+build:
+  image: docker:19.03.12
   services:
     - docker:19.03.12-dind
+  stage: build-image
+  rules:
+    - !reference [.rules, docker]
   script:
     - !reference [.docker, build-and-push]
   variables:
@@ -44,9 +58,7 @@ build:
 deploy:
   stage: deploy-sam
   rules:
-    - changes:
-        - $DEPLOY_PATH/**/*
-        - $DEPLOY_PATH/*
+    - !reference [.rules, deploy]
   script:
     - cd $SAM_PATH
     - !reference [.sam, build]
@@ -54,7 +66,7 @@ deploy:
   variables:
     SAM_PATH: $DEPLOY_PATH/certifications-audios
 
-call-api:
+.call-api:
   stage: call-api
   script:
     - echo -e "\e[0Ksection_start:`date +%s`:callapi[collapsed=true]\r\e[0K${TXT_CYAN_BOLD}Call Audio API"
@@ -62,7 +74,19 @@ call-api:
     - curl --data "$CI_COMMIT_SHA" $AUDIO_API
     - echo -e "\e[0Ksection_end:`date +%s`:callapi\r\e[0K"
 
-.transform-file:
-  stage: transform-file
+synthesis-file:
+  stage: synthesis-file
+  image: $CI_REGISTRY_IMAGE:latest
   script:
-    - aws polly start-speech-synthesis-task --output-format mp3 --output-s3-bucket-name jorgehoyos --text file://ec2-fundamentals.md --voice-id Joanna
+    - files=$(git diff-tree --no-commit-id --name-only -r CI_COMMIT_SHA)
+    - >
+      while IFS= read -r line; do
+        IFS='/' read -r -a array <<< "$line"
+        echo "$line"
+        if [[ ${array[0]} == "parse" ]]; then
+          python parse/read-file.py $line
+        fi
+      done <<< "$files"
+  artifacts:
+    paths:
+      - ./*.mp3
